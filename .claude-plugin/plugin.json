@@ -8,5 +8,5 @@
   },
   "homepage": "https://github.com/V-Songbird/slag/tree/main/anneal",
   "repository": "https://github.com/V-Songbird/slag",
-  "keywords": ["conventions", "codebase", "navigation", "audit", "migration", "refactoring", "CLAUDE.md", "layout"]
+  "keywords": ["conventions", "codebase", "navigation", "audit", "migration", "refactoring", "CLAUDE.md", "AGENTS.md", "layout"]
 }
