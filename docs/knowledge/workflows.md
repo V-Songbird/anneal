@@ -2,58 +2,58 @@
 type: knowledge
 summary: "Explains Anneal's audit findings, migration and review workflows, interactive Claude Code setup, limitations, eval prerequisites and the paired navigation eval protocol; read before using a workflow beyond the quick start, testing one interactively or running the evals."
 related_files:
-  - anneal/README.md
-  - anneal/skills/repo-layout/SKILL.md
-  - anneal/skills/session-review/SKILL.md
-  - anneal/skills/repo-docs/SKILL.md
-  - anneal/skills/repo-docs/references/policy.md
-  - anneal/skills/repo-docs/references/reconcile.md
-  - anneal/skills/repo-docs/references/readme.md
-  - anneal/skills/repo-docs/references/writing.md
-  - anneal/scripts/readme-check.js
-  - anneal/tests/readme-check.test.js
-  - anneal/templates/gitignore
-  - anneal/templates/docs-rule.md
-  - anneal/scripts/audit.js
-  - anneal/scripts/audit-observations.js
-  - anneal/scripts/session-evidence.js
-  - anneal/scripts/session-evidence-claude.js
-  - anneal/scripts/session-evidence-codex.js
-  - anneal/scripts/session-evidence-navigation.js
-  - anneal/scripts/session-evidence-records.js
-  - anneal/scripts/session-evidence-redaction.js
-  - anneal/scripts/session-evidence-shell.js
-  - anneal/scripts/session-evidence-stall.js
-  - anneal/scripts/session-closeout.js
-  - anneal/tests/session-closeout.test.js
-  - anneal/skills/session-review/references/many-sessions.md
-  - anneal/skills/overview/SKILL.md
-  - anneal/scripts/overview.js
-  - anneal/scripts/session-repeats.js
-  - anneal/tests/session-repeats.test.js
-  - anneal/tests/session-evidence.test.js
-  - anneal/tests/session-evidence-claude.test.js
-  - anneal/tests/session-evidence-codex.test.js
-  - anneal/tests/session-evidence-codex-records.test.js
-  - anneal/tests/session-evidence-navigation.test.js
-  - anneal/tests/session-transcripts.js
-  - anneal/hooks/safety-guard.js
-  - anneal/hooks/instruction-guard.js
-  - anneal/tests/instruction-guard.test.js
-  - anneal/hooks/session-start-records.js
-  - anneal/tests/session-start-records.test.js
-  - anneal/evals/
-  - anneal/evals/heldout-fixture.js
-  - anneal/tests/eval-graders.test.js
-  - anneal/tests/navigation-scenarios.test.js
-  - anneal/tests/heldout-scenarios.test.js
+  - README.md
+  - skills/repo-layout/SKILL.md
+  - skills/session-review/SKILL.md
+  - skills/repo-docs/SKILL.md
+  - skills/repo-docs/references/policy.md
+  - skills/repo-docs/references/reconcile.md
+  - skills/repo-docs/references/readme.md
+  - skills/repo-docs/references/writing.md
+  - scripts/readme-check.js
+  - tests/readme-check.test.js
+  - templates/gitignore
+  - templates/docs-rule.md
+  - scripts/audit.js
+  - scripts/audit-observations.js
+  - scripts/session-evidence.js
+  - scripts/session-evidence-claude.js
+  - scripts/session-evidence-codex.js
+  - scripts/session-evidence-navigation.js
+  - scripts/session-evidence-records.js
+  - scripts/session-evidence-redaction.js
+  - scripts/session-evidence-shell.js
+  - scripts/session-evidence-stall.js
+  - scripts/session-closeout.js
+  - tests/session-closeout.test.js
+  - skills/session-review/references/many-sessions.md
+  - skills/overview/SKILL.md
+  - scripts/overview.js
+  - scripts/session-repeats.js
+  - tests/session-repeats.test.js
+  - tests/session-evidence.test.js
+  - tests/session-evidence-claude.test.js
+  - tests/session-evidence-codex.test.js
+  - tests/session-evidence-codex-records.test.js
+  - tests/session-evidence-navigation.test.js
+  - tests/session-transcripts.js
+  - hooks/safety-guard.js
+  - hooks/instruction-guard.js
+  - tests/instruction-guard.test.js
+  - hooks/session-start-records.js
+  - tests/session-start-records.test.js
+  - evals/
+  - evals/heldout-fixture.js
+  - tests/eval-graders.test.js
+  - tests/navigation-scenarios.test.js
+  - tests/heldout-scenarios.test.js
 ---
 
 # Anneal workflows
 
 ## Where to start
 
-`/anneal:overview` on Claude Code, `$overview` on Codex or `/overview` on Antigravity runs `node anneal/scripts/overview.js --root <repository>` and shows what it prints: two lines for each part of anneal, with what that part's own script counted and the skill to run next.
+`/anneal:overview` on Claude Code, `$overview` on Codex or `/overview` on Antigravity runs `node scripts/overview.js --root <repository>` and shows what it prints: two lines for each part of anneal, with what that part's own script counted and the skill to run next.
 
 | Part | Script it runs | Skill it names |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ related_files:
 | Past sessions | `session-repeats.js` | `session-review all`, when a repeated step is not named in the map or sessions share a navigation finding |
 | This session | none | `session-review`, which only you can start |
 
-The script uses no model, writes nothing and adds no judgement: the counts are the heuristic findings, proposals and candidates of those scripts, none of them verified. A script that cannot run, such as the documentation check outside Git or the session search with no session to read, leaves its part as `not available` with that script's own message. `--json` prints the same parts as JSON, and `--no-sessions`, the skill's `no-sessions` argument, reads no past session and prints no Past sessions part. On this repository the run takes about 20 seconds, most of it reading 71 sessions.
+The script uses no model, writes nothing and adds no judgement: the counts are the heuristic findings, proposals and candidates of those scripts, none of them verified. A script that cannot run, such as the documentation check outside Git or the session search with no session to read, leaves its part as `not available` with that script's own message. `--json` prints the same parts as JSON, and `--no-sessions`, the skill's `no-sessions` argument, reads no past session and prints no Past sessions part. On the repository anneal was developed in, the run took about 20 seconds, most of it reading 71 sessions.
 
 No anneal command edits a project on its bare name. `overview` and both audits report. `repo-layout` and `session-review` propose and wait for your approval of each step or entry. `repo-docs` applies ordinary fixes only with `fix` or a cleanup request in your own words.
 
@@ -336,7 +336,7 @@ Deleting a Claude Code session can delete its transcript, and with it any decisi
 
 Run it on a finished session, not on the one you are in: the script refuses with exit 2 when `--session-id` is the id in `CLAUDE_CODE_SESSION_ID`, or `--session-file` is that session's transcript: a file named `<id>.jsonl`, or a renamed copy whose first record that carries a session id names that session. A file with any other name is checked by that first id alone, so it is not refused when that record names another session. With a session id, the script looks for exactly one transcript with that id under your Claude Code home and stops with exit 2 when it finds none or several; the skill then asks you for the file. It exits 1 for a Codex rollout, a record that is not valid JSON, or a `--root` outside a Git work tree.
 
-The script `anneal/scripts/session-closeout.js` reads the whole transcript with the same parser as the session evidence and prints JSON. It lists two kinds of items:
+The script `scripts/session-closeout.js` reads the whole transcript with the same parser as the session evidence and prints JSON. It lists two kinds of items:
 
 - A `change` is a file the session wrote with Edit, MultiEdit, NotebookEdit or Write, in a call that reported no error. Its `location` says where that file is now, checked with Git against the repository root:
 
@@ -384,7 +384,7 @@ Use `/anneal:session-review all [sessions folder or transcript files]` on Claude
 The skill runs `scripts/session-repeats.js`, which reads transcripts through the same parser as session review and prints JSON. It writes nothing.
 
 ```shell
-node anneal/scripts/session-repeats.js --root "<repository>" [--sessions-dir <dir>]... [--session-file <file>]...
+node scripts/session-repeats.js --root "<repository>" [--sessions-dir <dir>]... [--session-file <file>]...
 ```
 
 ### Which sessions it reads
@@ -411,7 +411,7 @@ The script prints five kinds, each kept only when it appears in at least `--min-
 | `prompts` | a prompt the owner typed: lower case except redaction's markers, without host envelopes, whitespace collapsed and closing punctuation removed; a slash command, a first word whose only slash leads it, by its name, so a prompt that starts with an absolute path is keyed whole |
 | `navigation` | a [navigation candidate](#navigation-candidates) of the session evidence whose scope is neither `none` nor `transient`: the same kind, cause and scope for the same file, when it is a read or an edit, or the same command or arguments otherwise, normalized as a step is |
 
-A navigation finding carries `navigationKind`, `candidateCause` and `scope` in place of `namedInMap`, and its example line is the result's line. Each transcript gives at most 30 candidates, the evidence's own bound, and a call a resumed session copied counts once, by its `uuid`. `navigationCounts` counts every navigation candidate by kind, whatever its scope. On this repository's 71 sessions the first run listed three findings, all `verbose-command`: `npm run check` printing 20,000 characters or more while it passed, 95 times in 4 sessions.
+A navigation finding carries `navigationKind`, `candidateCause` and `scope` in place of `namedInMap`, and its example line is the result's line. Each transcript gives at most 30 candidates, the evidence's own bound, and a call a resumed session copied counts once, by its `uuid`. `navigationCounts` counts every navigation candidate by kind, whatever its scope. On the 71 sessions of the repository anneal was developed in, the first run listed three findings, all `verbose-command`: `npm run check` printing 20,000 characters or more while it passed, 95 times in 4 sessions.
 
 An edit, a write and any other call is no step. Injected text, host notices and a subagent's task are no prompt, and on Codex the event that repeats a typed prompt counts once.
 
@@ -465,7 +465,7 @@ Write and Improve pick a tier, minimal, standard or advanced, and draft from `re
 
 #### The README checker
 
-`node anneal/scripts/readme-check.js [--tier minimal|standard|advanced] README.md` checks one file and writes nothing. It needs only Node 22 or later. It prints each finding as `line:rule  message`, then the count. On the README of the [README cases](#readme-cases):
+`node scripts/readme-check.js [--tier minimal|standard|advanced] README.md` checks one file and writes nothing. It needs only Node 22 or later. It prints each finding as `line:rule  message`, then the count. On the README of the [README cases](#readme-cases):
 
 ```text
 1:badge-first  badges appear before the description; move them below it
@@ -513,15 +513,15 @@ The reference keeps tutorials, how-to guides, reference pages, explanations and 
 
 ### Adopting the documentation contract
 
-Pass `adopt`, as in `/anneal:repo-docs adopt`, to write the documentation contract into a project. The contract itself stays in the plugin, in the skill's `references/policy.md`. After you approve each file, adopt writes the project-local rule `.claude/rules/documentation.md` from `anneal/templates/docs-rule.md`, which names the profile and repeats the contract's five invariants; one pointer line in each map file present (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`), skipping a map file that only imports another one receiving the line, so Codex and Antigravity, which do not load `.claude/rules/`, still reach the rule; and, for the `solo-public` profile only, ignore rules from `anneal/templates/gitignore`, which hide the private directories at the root and in nested package roots, copied whole when the project has no `.gitignore` and otherwise appended only where a private directory is not yet ignored by a `.gitignore`. It commits nothing.
+Pass `adopt`, as in `/anneal:repo-docs adopt`, to write the documentation contract into a project. The contract itself stays in the plugin, in the skill's `references/policy.md`. After you approve each file, adopt writes the project-local rule `.claude/rules/documentation.md` from `templates/docs-rule.md`, which names the profile and repeats the contract's five invariants; one pointer line in each map file present (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`), skipping a map file that only imports another one receiving the line, so Codex and Antigravity, which do not load `.claude/rules/`, still reach the rule; and, for the `solo-public` profile only, ignore rules from `templates/gitignore`, which hide the private directories at the root and in nested package roots, copied whole when the project has no `.gitignore` and otherwise appended only where a private directory is not yet ignored by a `.gitignore`. It commits nothing.
 
 The profiles: `solo-public` keeps `docs/tasks/`, `docs/decisions/`, `docs/knowledge/private/`, `docs/apis/private/` and `.private/` ignored and untracked. `private-repo` versions every documentation directory so cloud and isolated sessions can read the private records; `.private/` must stay ignored, and since adopt writes no ignore rule for this profile, its `git check-ignore` probe reports a trackable `.private/` for you to fix. `team` is versioned like `private-repo`, puts decisions that bind more than one person in `docs/decisions/`, names task notes for the task and changes the rule file through ordinary review.
 
-Adopt never untracks a file and never ignores all of `docs/`, `docs/knowledge/` or `docs/apis/`; a private file already tracked is reported for you to resolve. `anneal/tests/repo-docs-templates.test.js` pins the two templates: what the ignore template hides and leaves visible, the profile `docs-check.js` reads from it, and that the rule's bullets equal the contract's invariants.
+Adopt never untracks a file and never ignores all of `docs/`, `docs/knowledge/` or `docs/apis/`; a private file already tracked is reported for you to resolve. `tests/repo-docs-templates.test.js` pins the two templates: what the ignore template hides and leaves visible, the profile `docs-check.js` reads from it, and that the rule's bullets equal the contract's invariants.
 
 ### The documentation check
 
-`node anneal/scripts/docs-check.js --root <project> [--json | --index]` reads a Git working tree and reports where its documentation breaks the documentation policy. It changes nothing. It exits 1 when a high finding exists, 0 otherwise, and 2 for bad arguments or a directory outside a Git working tree. repo-docs' adopt mode runs it before and after writing a project's files, so its exit codes and output are part of adopt's procedure.
+`node scripts/docs-check.js --root <project> [--json | --index]` reads a Git working tree and reports where its documentation breaks the documentation policy. It changes nothing. It exits 1 when a high finding exists, 0 otherwise, and 2 for bad arguments or a directory outside a Git working tree. repo-docs' adopt mode runs it before and after writing a project's files, so its exit codes and output are part of adopt's procedure.
 
 It reads every Markdown file under a directory named `docs`, at any depth and ignored files included, skipping dot directories and `node_modules`. The profile comes from the ignore rules in the repository's `.gitignore` files; `core.excludesFile` and `.git/info/exclude` do not count, since a clone does not carry them. A `.git/info/exclude` rule on a parent directory, such as `docs/`, masks a committed rule beneath it, so that directory reads as not ignored. When a `.gitignore` ignores any of `docs/tasks/`, `docs/decisions/`, `docs/knowledge/private/` and `docs/apis/private/`, private documentation is ignored. When it ignores none, private documentation is versioned, as in a private repository whose cloud sessions read it. `.private/` must stay ignored by a `.gitignore` in both.
 
@@ -543,7 +543,7 @@ Ignored directories outside a `docs` tree, such as build output, are skipped. In
 
 ### The record index
 
-`node anneal/scripts/docs-check.js --root <project> --index` prints the record index: Markdown for `docs/index.md` with one line per maintained record, giving its path and its `summary`. An agent reads this file to find a record instead of guessing a path. The command changes nothing; save its output as `docs/index.md` yourself.
+`node scripts/docs-check.js --root <project> --index` prints the record index: Markdown for `docs/index.md` with one line per maintained record, giving its path and its `summary`. An agent reads this file to find a record instead of guessing a path. The command changes nothing; save its output as `docs/index.md` yourself.
 
 - Records are grouped by their frontmatter `type`, in this order: `adr`, `api_spec`, `knowledge`, `task_summary`. A record with no frontmatter or another type goes under `other`.
 - A record with no `summary` shows `(no summary)`.
@@ -555,7 +555,7 @@ It exits 0 whatever the documentation check would find, and 2 for bad arguments,
 
 ### Maintenance proposals
 
-Pass `maintain` to repo-docs, as in `/anneal:repo-docs maintain`, for proposals that trim documentation. The skill runs `node anneal/scripts/docs-maintenance.js --root <project> [--store <file>]... [--transcripts <directory>]... [--memory <directory>]... [--json]`, which changes nothing and exits 0 with or without proposals, and 2 for bad arguments, an unreadable store, transcript or memory directory, or a directory outside a Git working tree. The skill then shows the proposals grouped by kind and changes nothing in a group until you approve it.
+Pass `maintain` to repo-docs, as in `/anneal:repo-docs maintain`, for proposals that trim documentation. The skill runs `node scripts/docs-maintenance.js --root <project> [--store <file>]... [--transcripts <directory>]... [--memory <directory>]... [--json]`, which changes nothing and exits 0 with or without proposals, and 2 for bad arguments, an unreadable store, transcript or memory directory, or a directory outside a Git working tree. The skill then shows the proposals grouped by kind and changes nothing in a group until you approve it.
 
 | Proposal | When |
 | --- | --- |
@@ -685,13 +685,13 @@ The harness confines the granted shell in a sandbox, and native Windows has none
 Run them from the repository root, and write the results outside it:
 
 ```bash
-claude plugin eval ./anneal --tag smoke --tag safety --scaffold --no-publish \
+claude plugin eval . --tag smoke --tag safety --scaffold --no-publish \
   --allow-tools Bash Edit Write --output-dir <results>
 ```
 
-`--tag smoke --tag safety` selects the three. Without it the clean-tree migrations, the plan from a wrong survey row, the unreadable transcript, the seven session-failure cases, the two `session-repeats` cases, the two `readme` cases, the two `writing` cases, the reader-only map checks, the navigation cases and the held-out cases run too, the last two in both arms, which their protocol does not use. Without `--output-dir` the harness writes `aggregate-result.json` and the HTML report under `anneal/evals/results/`, which git does not ignore. Each run's trace stays in its temporary directory as `out/trace.jsonl`. `--keep-temp` keeps that directory; in 2.1.278 it also seals the run's home and workspace under `sealed/` at mode 000 and asks that no git command run in the kept copy.
+`--tag smoke --tag safety` selects the three. Without it the clean-tree migrations, the plan from a wrong survey row, the unreadable transcript, the seven session-failure cases, the two `session-repeats` cases, the two `readme` cases, the two `writing` cases, the reader-only map checks, the navigation cases and the held-out cases run too, the last two in both arms, which their protocol does not use. Without `--output-dir` the harness writes `aggregate-result.json` and the HTML report under `evals/results/`, which git does not ignore. Each run's trace stays in its temporary directory as `out/trace.jsonl`. `--keep-temp` keeps that directory; in 2.1.278 it also seals the run's home and workspace under `sealed/` at mode 000 and asks that no git command run in the kept copy.
 
-With `--scaffold`, the harness runs each case's `scaffold_script` with bash from that case's folder in the target, as you and outside the sandbox, in the run's new workspace and with the `PATH` the harness started with. A script can therefore reach other files of the target through its own path: each navigation scaffold runs `../navigation-fixture.js`, which reads its contract from `navigation-partner-api.md` beside it, so a copy of `anneal/` used as the target has to keep both files in `evals/`. In the same way, `migration-moves-into-new-directory` and `plan-flags-a-wrong-importer-count` run the fixture script of `migration-applies-approved-step`, and `readme-repair-without-the-word`, `writing-page-without-the-word` and `writing-review-reports-without-changes` run the fixture script of `readme-review-reports-without-changes`. A scaffold that fails ends its run before the session starts, at no cost, and the run's error quotes the end of the script's error output. The harness keeps a failed run's temporary directory even without `--keep-temp`, unless `--json` is passed.
+With `--scaffold`, the harness runs each case's `scaffold_script` with bash from that case's folder in the target, as you and outside the sandbox, in the run's new workspace and with the `PATH` the harness started with. A script can therefore reach other files of the target through its own path: each navigation scaffold runs `../navigation-fixture.js`, which reads its contract from `navigation-partner-api.md` beside it, so a copy of this repository used as the target has to keep both files in `evals/`. In the same way, `migration-moves-into-new-directory` and `plan-flags-a-wrong-importer-count` run the fixture script of `migration-applies-approved-step`, and `readme-repair-without-the-word`, `writing-page-without-the-word` and `writing-review-reports-without-changes` run the fixture script of `readme-review-reports-without-changes`. A scaffold that fails ends its run before the session starts, at no cost, and the run's error quotes the end of the script's error output. The harness keeps a failed run's temporary directory even without `--keep-temp`, unless `--json` is passed.
 
 Inside the sandbox:
 
@@ -744,7 +744,7 @@ Plugin installation and interactive migration coverage remain incomplete across 
 Run the case on its own, in both arms:
 
 ```bash
-claude plugin eval ./anneal --case migration-applies-approved-step --scaffold --no-publish \
+claude plugin eval . --case migration-applies-approved-step --scaffold --no-publish \
   --allow-tools Bash Edit Write --output-dir <results>
 ```
 
@@ -776,7 +776,7 @@ That is 6 sessions, three with the plugin and three without, each capped at 40 t
 Seven cases, tagged `session-failure`, each give `/anneal:session-review session.jsonl` a synthetic transcript of one failure shape in a small shop repository and approve nothing. The question each asks is what the report proposes for the map file, `AGENTS.md`. Every case allows 25 turns and 600 seconds, and the tools Read, Glob, Grep, Skill, Bash, Edit and Write. Run them from the repository root:
 
 ```bash
-claude plugin eval ./anneal --tag session-failure --scaffold --no-publish \
+claude plugin eval . --tag session-failure --scaffold --no-publish \
   --allow-tools Bash Edit Write --output-dir <results>
 ```
 
@@ -806,7 +806,7 @@ Two kinds of grader score each case:
 Two cases, tagged `session-repeats`, give `/anneal:session-review all sessions/` three synthetic Claude Code transcripts in a small shop repository and approve nothing. In each transcript the session runs `npm test`, then `git status --short --ignored`. Each case allows 25 turns and 600 seconds, and the tools Read, Glob, Grep, Skill, Bash, Edit and Write. Run them from the repository root:
 
 ```bash
-claude plugin eval ./anneal --tag session-repeats --scaffold --no-publish \
+claude plugin eval . --tag session-repeats --scaffold --no-publish \
   --allow-tools Bash Edit Write --output-dir <results>
 ```
 
@@ -831,7 +831,7 @@ In both, `skill-fired` requires a Skill call of `repo-docs` and `checker-ran` a 
 Eval sessions load your user skills. Before a run, remove or disable any other README or documentation-writing skill installed for your user; otherwise a README or writing request can route to it, and `skill-fired` fails for a reason outside anneal. Run them from the repository root:
 
 ```bash
-claude plugin eval ./anneal --tag readme --scaffold --no-publish \
+claude plugin eval . --tag readme --scaffold --no-publish \
   --allow-tools Bash Edit Write --output-dir <results>
 ```
 
@@ -849,7 +849,7 @@ In both, `skill-fired` requires a Skill call of `repo-docs` and `writing-read` a
 As for the README cases, remove or disable any other documentation-writing skill installed for your user before a run; otherwise a writing request can route to it, and `skill-fired` fails for a reason outside anneal.
 
 ```bash
-claude plugin eval ./anneal --tag writing --scaffold --no-publish \
+claude plugin eval . --tag writing --scaffold --no-publish \
   --allow-tools Bash Edit Write --output-dir <results>
 ```
 
@@ -881,23 +881,23 @@ Code, tests, contract, prompts and graders are identical in both. Every prompt s
 | `navigation-contract-section` | Make the shipment page sizes in a named file match the contract | Default 20 and maximum 100 in `limits.js`, from the shipments entry past line 2,000 rather than the general rule of 50 and 200 near the top, with the other limits unchanged |
 | `navigation-explicit-path` | Add Norway to the nordic zone in a named file | `NO` in the nordic zone of `shipping.js`, with every other zone and rate unchanged. The task needs no orientation, so its oriented runs show what the extra lines cost |
 
-[navigation-scenarios.test.js](../../tests/navigation-scenarios.test.js) runs every grader against known-good, wrong and partial solutions without a session, checks that the verdicts on changed code agree with the code's behaviour, checks that the snapshots differ only in the map file, and pins both `Start here` lines to the package's exports and the contract's endpoint section. `npm run check` runs it. The harness has no grader that runs a command, so a grader on changed code is a pattern over the file, and this test is what shows the pattern agrees with the code's behaviour.
+[navigation-scenarios.test.js](../../tests/navigation-scenarios.test.js) runs every grader against known-good, wrong and partial solutions without a session, checks that the verdicts on changed code agree with the code's behaviour, checks that the snapshots differ only in the map file, and pins both `Start here` lines to the package's exports and the contract's endpoint section. `node --test` runs it. The harness has no grader that runs a command, so a grader on changed code is a pattern over the file, and this test is what shows the pattern agrees with the code's behaviour.
 
 The two arms are the snapshots, not the plugin: no case allows a Skill call, and the runs use `--ablation none`. The command for the other three cases leaves these out by tag. The comparison takes twelve runs, three scenarios by two snapshots by two fresh sessions:
 
-1. Before the first run, record the commit of this repository, with no local changes under `anneal/evals/`, the output of `claude --version`, the model id and the host: WSL2 or Linux with the sandbox packages above. For the SDK runner form below, record the `@anthropic-ai/claude-agent-sdk` version pinned in `scripts/sdk-eval/package.json` instead of `claude --version`, and the host's operating system as the host. Keep all four for the twelve runs.
+1. Before the first run, record the commit of this repository, with no local changes under `evals/`, the output of `claude --version`, the model id and the host: WSL2 or Linux with the sandbox packages above. For the SDK runner form below, record the `@anthropic-ai/claude-agent-sdk` version pinned in that runner's `package.json` instead of `claude --version`, and the host's operating system as the host. Keep all four for the twelve runs.
 2. Start each run with its own command, and write its results outside the repository. `--keep-temp` keeps the run's directory, to check a failed grader against the files:
 
    ```bash
-   claude plugin eval ./anneal --case navigation-package-lookup-original --runs 1 --ablation none \
+   claude plugin eval . --case navigation-package-lookup-original --runs 1 --ablation none \
      --scaffold --no-publish --allow-tools Bash Edit Write --model <model-id> --keep-temp \
      --output-dir <results>/01
    ```
 
-   The same run through the Claude Agent SDK, which bills an API key instead of a Claude plan, uses the SDK runner, `scripts/sdk-eval/run.mjs` at the root of the Slag repository. Pass `--ablation none` there too: without it the runner adds a without-plugin arm and doubles the paid sessions. The runner needs `npm install` in `scripts/sdk-eval/` and `ANTHROPIC_API_KEY` in the env file, runs Bash unconfined, defaults to `--model claude-opus-5-5`, and keeps each run's workspace under `--output-dir`, which stays outside the repository (under 120 characters on Windows). `--concurrency 1` keeps one run at a time:
+   The same run through the Claude Agent SDK, which bills an API key instead of a Claude plan, uses the SDK runner. It is not part of this repository: it is `scripts/sdk-eval/run.mjs` in the [Slag repository](https://github.com/V-Songbird/slag), where anneal was developed. In the commands below, `<slag>` is a clone of that repository, and the runner's first argument is this repository's directory. Pass `--ablation none` there too: without it the runner adds a without-plugin arm and doubles the paid sessions. The runner needs `npm install` in `<slag>/scripts/sdk-eval/` and `ANTHROPIC_API_KEY` in the env file, runs Bash unconfined, defaults to `--model claude-opus-5-5`, and keeps each run's workspace under `--output-dir`, which stays outside the repository (under 120 characters on Windows). `--concurrency 1` keeps one run at a time:
 
    ```bash
-   node --env-file=<file> scripts/sdk-eval/run.mjs anneal --case navigation-package-lookup-original \
+   node --env-file=<file> <slag>/scripts/sdk-eval/run.mjs . --case navigation-package-lookup-original \
      --runs 1 --ablation none --concurrency 1 --model <model-id> --output-dir <results>/01
    ```
 
@@ -931,11 +931,11 @@ Six more cases, tagged `heldout`, repeat the two route lines on a second reposit
 The cases share the navigation protocol: the same first prompt line, `--ablation none`, twelve runs in the same order, and the same measures. A held-out run takes the navigation command with a held-out case name, in either form:
 
 ```bash
-claude plugin eval ./anneal --case heldout-package-lookup-original --runs 1 --ablation none \
+claude plugin eval . --case heldout-package-lookup-original --runs 1 --ablation none \
   --scaffold --no-publish --allow-tools Bash Edit Write --model <model-id> --keep-temp \
   --output-dir <results>/01
 
-node --env-file=<file> scripts/sdk-eval/run.mjs anneal --case heldout-package-lookup-original \
+node --env-file=<file> <slag>/scripts/sdk-eval/run.mjs . --case heldout-package-lookup-original \
   --runs 1 --ablation none --concurrency 1 --model <model-id> --output-dir <results>/01
 ```
 
@@ -949,7 +949,7 @@ One held-out run with these lines is recorded, on Claude Code 2.1.278 under WSL2
 
 ### The first SDK baseline
 
-One two-arm run of 15 cases is recorded through the SDK runner, `scripts/sdk-eval/run.mjs` at the root of the Slag repository, on 2026-11-09, three runs per arm: the seven [session-failure cases](#session-failure-checks), both [repeated-step cases](#repeated-step-cases), both [README cases](#readme-cases), both [writing cases](#writing-cases), `migration-moves-into-new-directory` and `plan-flags-a-wrong-importer-count`. The sessions ran on `claude-opus-5-5` through Agent SDK 0.3.299, and the judged graders on `claude-sonnet-5-5`.
+One two-arm run of 15 cases is recorded through the SDK runner described above, on 2026-11-09, three runs per arm: the seven [session-failure cases](#session-failure-checks), both [repeated-step cases](#repeated-step-cases), both [README cases](#readme-cases), both [writing cases](#writing-cases), `migration-moves-into-new-directory` and `plan-flags-a-wrong-importer-count`. The sessions ran on `claude-opus-5-5` through Agent SDK 0.3.299, and the judged graders on `claude-sonnet-5-5`.
 
 Read a with/without delta in three parts:
 

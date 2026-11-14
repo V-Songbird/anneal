@@ -1,6 +1,6 @@
 {
   "name": "anneal",
-  "version": "0.7.0-alpha",
+  "version": "0.8.0-alpha",
   "description": "Improves agent navigation through a repository, turns session detours into approved map-file changes, finds steps sessions repeat that a plain script could run, and reconciles documentation and non-code development files with current behavior. Includes audit-only review, an approved layout migration, README review, host consistency and repository hygiene.",
   "license": "MIT",
   "author": {
@@ -8,8 +8,8 @@
     "email": "victor.villegas@tuta.com",
     "url": "https://github.com/V-Songbird"
   },
-  "homepage": "https://github.com/V-Songbird/slag/tree/main/anneal",
-  "repository": "https://github.com/V-Songbird/slag",
+  "homepage": "https://github.com/V-Songbird/anneal",
+  "repository": "https://github.com/V-Songbird/anneal",
   "keywords": [
     "conventions",
     "codebase",
@@ -29,7 +29,7 @@
     "developerName": "Victor Villegas",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
-    "websiteURL": "https://github.com/V-Songbird/slag/tree/main/anneal",
+    "websiteURL": "https://github.com/V-Songbird/anneal",
     "defaultPrompt": ["Audit this repository for what makes it hard to navigate."]
   }
 }
