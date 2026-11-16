@@ -9,5 +9,6 @@
   },
   "homepage": "https://github.com/V-Songbird/anneal",
   "repository": "https://github.com/V-Songbird/anneal",
+  "icon": "./assets/icon-on-light.png",
   "keywords": ["conventions", "codebase", "navigation", "audit", "migration", "refactoring", "CLAUDE.md", "AGENTS.md", "layout"]
 }
