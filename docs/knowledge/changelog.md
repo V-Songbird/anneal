@@ -33,6 +33,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versio
 
 ### Fixed
 
+- The repeated-step search keeps the folder of a Codex command whose `workdir` is an absolute path under your home directory. The session evidence writes the home directory as `~`, and that path was then read as relative, so the step lost its `cd <folder> &&` and could miss a repeat.
 - Antigravity loads the `mapper` agent again: its `tools` field is now a YAML list, which the Antigravity loader requires.
 - The overview no longer says past sessions are read when it runs with `--no-sessions`.
 - The README and the workflow guide say Antigravity's documentation lists the safety hook's question as a prompt. That prompt was not observed live.

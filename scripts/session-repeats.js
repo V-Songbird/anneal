@@ -222,7 +222,9 @@ function stepOf(call, host, normalize) {
   if (typeof command !== "string" || !command.trim()) return null;
   if (call.operation === "read" && call.path !== null) return { kind: "lookups", key: `read ${where(call.path)}` };
   const workdir = host === "codex" ? argument(call.commandOrArguments, "workdir") : null;
-  const dir = workdir && call.cwd && !path.isAbsolute(workdir) ? path.join(call.cwd, workdir) : workdir || call.cwd;
+  // The evidence redacts the home directory to `~`, so a workdir under it is absolute too.
+  const relative = workdir && !path.isAbsolute(workdir) && !/^~(?:[\\/]|$)/.test(workdir);
+  const dir = relative && call.cwd ? path.join(call.cwd, workdir) : workdir || call.cwd;
   const inside = typeof dir === "string" && dir ? /^\.[\\/]+(.+)$/.exec(normalize(excerpt(dir))) : null;
   const key = normalize(command);
   if (!inside) return { kind: "commands", key };

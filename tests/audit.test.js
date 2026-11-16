@@ -846,7 +846,8 @@ describe("start context", () => {
   test("a linked worktree reads the primary checkout's transcript folders", () => {
     const root = repo({ tracked: { "CLAUDE.md": "# Shop\n" } });
     execFileSync("git", ["-C", root, "-c", "user.name=fixture", "-c", "user.email=fixture@example.invalid", "commit", "-qm", "fixture"], { stdio: "ignore" });
-    const outer = fs.mkdtempSync(path.join(os.tmpdir(), "anneal-worktree-"));
+    // The temporary folder as Git names it: a hosted runner's is a symlink on macOS and a short name on Windows.
+    const outer = fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), "anneal-worktree-")));
     created.push(outer);
     const worktree = path.join(outer, "wt");
     execFileSync("git", ["-C", root, "worktree", "add", "-q", worktree, "-b", "side"], { stdio: "ignore" });
