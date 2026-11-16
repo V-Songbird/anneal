@@ -50,6 +50,27 @@ test("every hook command names a script that exists", () => {
   }
 });
 
+// A manifest or a skill's openai.yaml that names an icon the repository does
+// not hold shows no icon on that host, and nothing else notices.
+test("every icon a manifest or an openai.yaml names exists", () => {
+  const named = [];
+  const iface = json(".codex-plugin/plugin.json").interface;
+  for (const key of ["composerIcon", "logo", "logoDark"]) named.push([iface[key], ROOT, `.codex-plugin ${key}`]);
+  named.push([json("plugin.json").logo, ROOT, "plugin.json logo"]);
+  for (const skill of fs.readdirSync(path.join(ROOT, "skills"))) {
+    const yaml = path.join("skills", skill, "agents", "openai.yaml");
+    if (!fs.existsSync(path.join(ROOT, yaml))) continue;
+    for (const [, key, file] of read(yaml).matchAll(/^\s*(icon_small|icon_large):\s*"([^"]+)"/gm)) {
+      named.push([file, path.join(ROOT, "skills", skill), `${yaml} ${key}`]);
+    }
+  }
+  assert.ok(named.length >= 4 + 8);
+  for (const [file, base, label] of named) {
+    assert.ok(file, `${label} is empty`);
+    assert.ok(fs.statSync(path.join(base, file)).isFile(), `${label} names a missing file: ${file}`);
+  }
+});
+
 test("every skill folder holds a SKILL.md", () => {
   const skills = fs.readdirSync(path.join(ROOT, "skills"), { withFileTypes: true }).filter((entry) => entry.isDirectory());
   assert.ok(skills.length);

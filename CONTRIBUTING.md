@@ -20,7 +20,7 @@ plugin.json             # Antigravity metadata and the same version
 hooks.json              # Antigravity event wiring, keyed by the plugin name
 LICENSE                 # MIT
 README.md               # the user guide: how it works, settings, install, results
-assets/logo.svg         # the logo Antigravity's manifest names
+assets/                 # icon-on-light.png and icon-on-dark.png, which the manifests name
 skills/                 # overview, repo-layout, repo-docs and session-review, read by every host
 ├── skill-name/
 │   ├── SKILL.md        # skill definition

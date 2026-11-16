@@ -30,6 +30,10 @@
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://github.com/V-Songbird/anneal",
-    "defaultPrompt": ["Audit this repository for what makes it hard to navigate."]
+    "composerIcon": "./assets/icon-on-light.png",
+    "logo": "./assets/icon-on-light.png",
+    "logoDark": "./assets/icon-on-dark.png",
+    "defaultPrompt": ["Audit this repository for what makes it hard to navigate."],
+    "brandColor": "#7B4FA0"
   }
 }
