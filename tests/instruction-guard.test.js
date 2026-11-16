@@ -153,16 +153,28 @@ describe("the guard stays silent", () => {
     const files = execFileSync("git", ["-C", REPOSITORY, "ls-files", "-z", "--", "*.md", "*.mdc"], { encoding: "utf8" })
       .split("\0").filter(Boolean);
     const fired = [];
-    let instructions = 0;
     for (const file of files) {
       const absolute = path.join(REPOSITORY, file);
       if (!fs.existsSync(absolute)) continue;
-      if (isInstructionFile(absolute, REPOSITORY)) instructions += 1;
       const output = decide("claude", { tool_name: "Write", cwd: REPOSITORY, tool_input: { file_path: absolute, content: fs.readFileSync(absolute, "utf8") } });
       if (output !== null) fired.push(file);
     }
     assert.deepStrictEqual(fired, []);
-    assert.ok(instructions >= 1, `${instructions} tracked instruction files`);
+  });
+
+  // The repository no longer tracks an instruction file of its own, so the guard's
+  // reach is shown on a fixture project: its instruction files are recognized, a
+  // plain write to one passes, and a hidden character in it is refused.
+  test("on a fixture project's instruction files, plain text passes and a hidden character is refused", () => {
+    const root = project();
+    const files = ["AGENTS.md", "CLAUDE.md", "packages/web/AGENTS.md", ".claude/rules/testing.md"];
+    for (const file of files) {
+      const absolute = path.join(root, file);
+      assert.ok(isInstructionFile(absolute, root), `${file} is an instruction file`);
+      assert.strictEqual(decide("claude", { tool_name: "Write", cwd: root, tool_input: { file_path: absolute, content: "Run `npm run check`." } }), null, file);
+      assert.ok(decide("claude", { tool_name: "Write", cwd: root, tool_input: { file_path: absolute, content: `a${cp(0x200b)}` } }), `${file} refuses U+200B`);
+    }
+    assert.strictEqual(isInstructionFile(path.join(root, "README.md"), root), false);
   });
 });
 

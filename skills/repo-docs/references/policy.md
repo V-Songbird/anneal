@@ -40,7 +40,7 @@ The caps are the ones `docs-check.js` enforces as `task-note-large` and `history
 
 **Decision records** keep their reasons and the alternatives considered under a `Rejected Alternatives` heading. A changed decision gets a new record or a `superseded` note; the old one stays as history.
 
-**Trim** through the maintenance proposals of [the workflow guide](../../../docs/knowledge/workflows.md#maintenance-proposals): `drift` for a document whose related files changed after it, `fold-completed` for a completed task note, `condense` for an oversized record, `merge-per-entry` for per-task documents that belong in one topic, `fold-store` for an orphaned knowledge store. Each proposal waits for the owner's approval; deleting, merging and condensing records are never ordinary fixes.
+**Trim** through the proposals `docs-maintenance.js` prints: `drift` for a document whose related files changed after it, `fold-completed` for a completed task note, `condense` for an oversized record, `merge-per-entry` for per-task documents that belong in one topic, `fold-store` for an orphaned knowledge store. Each proposal waits for the owner's approval; deleting, merging and condensing records are never ordinary fixes.
 
 ## Profiles
 
@@ -70,5 +70,5 @@ The caps are the ones `docs-check.js` enforces as `task-note-large` and `history
 
 ## What the scripts check
 
-- `docs-check.js` reports where a project's documentation breaks this contract, without changing anything; its findings and the profile it reads are in [the documentation check](../../../docs/knowledge/workflows.md#the-documentation-check). With `--index` it prints [the record index](../../../docs/knowledge/workflows.md#the-record-index) instead.
-- `docs-maintenance.js` proposes the trims the Lifecycle section names and changes nothing; its proposals are in [maintenance proposals](../../../docs/knowledge/workflows.md#maintenance-proposals).
+- `docs-check.js` reports where a project's documentation breaks this contract, without changing anything; it prints each finding with its severity and the profile it read. With `--index` it prints the record index instead: one line per maintained record, with its path and summary.
+- `docs-maintenance.js` proposes the trims the Lifecycle section names and changes nothing; it prints each proposal with its kind and the reason.

@@ -13,10 +13,7 @@ description: >-
   this". Alone or with audit it only reports; fix applies fixes. Not for code layout (repo-layout) or
   session transcripts (session-review).
 argument-hint: "[audit|fix|maintain|adopt|readme] [path or concern]"
-license: MIT
 compatibility: Portable instructions for Claude Code, Codex and Antigravity. The bundled layout audit and README checker require Node 22 or later. Git enables tracked and ignored file checks.
-metadata:
-  version: "3.0"
 ---
 
 # Repo docs

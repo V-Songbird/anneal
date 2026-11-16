@@ -3,10 +3,7 @@ name: session-review
 description: Audit one session for lost time and propose map-file fixes, find what many sessions repeat that a script or a map line could replace, or check whether a finished session is safe to delete. Run only when invoked.
 disable-model-invocation: true
 argument-hint: "[transcript file] | all [sessions folder or transcript files] | closeout <session id or transcript file>"
-license: MIT
 compatibility: Requires Node 22 or later. Finds the session's transcript on Claude Code and Codex. On Antigravity, and on any other host, it works only on a transcript file you hand it.
-metadata:
-  version: "2.0"
 ---
 
 # Session review

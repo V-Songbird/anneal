@@ -2,10 +2,7 @@
 name: overview
 description: Shows what anneal finds in this repository and which of its skills to run next, from one read-only script with no model. Use when the user asks what anneal does or can do here, where to start with it, which anneal skill fits a job, or for a quick health summary of navigation, documentation and past sessions. Reports only; it never edits. Not for the audits themselves (repo-layout, repo-docs) or for session transcripts (session-review).
 argument-hint: "[no-sessions]"
-license: MIT
 compatibility: Requires Node 22 or later. Git enables the documentation and session lines. Finds past sessions on Claude Code and Codex only.
-metadata:
-  version: "1.0"
 ---
 
 # Overview

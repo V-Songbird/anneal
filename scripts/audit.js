@@ -771,7 +771,7 @@ function formatSummary(report) {
   }
   const globalCharacters = start.sources.filter((source) => source.fromGlobal).reduce((sum, source) => sum + source.characters, 0);
   if (globalCharacters > start.budget * GLOBAL_SHARE) {
-    lines.push(`  global files are ${Math.round((globalCharacters / start.budget) * 100)}% of the budget; text that matters for one tool or path can load only when needed, by a rule with paths: or a hook with additionalContext. See "Text that loads only when needed" in anneal/docs/knowledge/workflows.md. The audit moves no line.`);
+    lines.push(`  global files are ${Math.round((globalCharacters / start.budget) * 100)}% of the budget; text that matters for one tool or path can load only when needed, by a rule with paths: or a hook with additionalContext. See "What every session loads" at https://github.com/V-Songbird/anneal#the-layout-audit. The audit moves no line.`);
   }
   const drift = report.instructionDrift;
   if (drift.files.length < 2) lines.push("", `instruction drift: ${plural(drift.files.length, "global instruction file")} read; nothing to compare`);

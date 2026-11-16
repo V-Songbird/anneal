@@ -13,10 +13,7 @@ description: >-
   only. Do NOT use for a single
   rename, a refactor with another goal, or scaffolding a new project.
 argument-hint: "[audit]"
-license: MIT
 compatibility: Requires Node 22 or later. A migration also requires git.
-metadata:
-  version: "1.4"
 ---
 
 # Repo layout

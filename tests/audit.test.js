@@ -1040,7 +1040,7 @@ describe("start context", () => {
       write(dir, { "global.md": "x".repeat(size) });
       return spawnSync(process.execPath, [CLI, "--root", root, "--global", path.join(dir, "global.md")], { encoding: "utf-8" }).stdout;
     };
-    assert.match(summary(5001), /\n {2}global files are 25% of the budget; .*rule with paths:.*hook with additionalContext\. See "Text that loads only when needed" in anneal\/docs\/knowledge\/workflows\.md/);
+    assert.match(summary(5001), /\n {2}global files are 25% of the budget; .*rule with paths:.*hook with additionalContext\. See "What every session loads" at https:\/\/github\.com\/V-Songbird\/anneal#the-layout-audit/);
     assert.doesNotMatch(summary(5000), /additionalContext/);
   });
 
