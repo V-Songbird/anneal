@@ -58,6 +58,7 @@ host-specific instruction. `CLAUDE.md` imports this file; keep shared contributo
 
 - **Navigation findings are heuristic.** The runtime-name examples in `tests/audit.test.js` exercise the detector on purpose, and the audit also reports two matches in `scripts/session-evidence-navigation.js`.
 - **`tests/eval-harness.js` has a twin.** collet keeps the same file as `tests/eval-harness.cjs`; change both together, since no test compares the two repositories.
+- **Grader patterns read as links.** Three eval graders hold regex text in their frontmatter that a Markdown link checker takes for seven links. Tests pin the patterns, so exclude `graders/` from such a check instead of changing them.
 - **On Node.js 22 a suite that fails outside its tests can still exit 0.** A `describe` callback or an `after` hook that throws is reported but left out of the exit code.
 - **Some write tools turn a `\u` escape back into the raw character.** After writing an invisible-character escape, check that the file still holds the escape.
 - **Passing subprocess tests do not prove installed-host behavior.** Hook discovery, trust and prompts need a session on the host.

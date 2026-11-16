@@ -24,6 +24,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versio
 
 ### Changed
 
+- The README has the layout the other Foundry plugins share: install steps for each host, current limits under Good to know, and the recorded runs under The numbers, taken from the workflow guide.
 - On Codex the safety hook refuses a command that deletes, overwrites or moves a migration branch with commits of its own. It asked before, and Codex's documentation says Codex runs the command on such a question. Review and trust the changed hook in `/hooks`. The refusal was not observed in a live Codex session.
 
 ### Removed
