@@ -176,7 +176,6 @@ agy plugin install <path-to-clone>/anneal
 - Documentation checks cover the stated evidence, do not prove every claim, host or distribution safe, and do not scan Git history.
 - A complete migration, with the Git guard's refusal on its branch, has been observed in interactive sessions on Claude Code (a script answering the prompts) and the Antigravity IDE (a person answering). On Codex CLI it was observed with a script answering and the project's `.git` added as a writable root (`codex exec --add-dir <project>/.git`, since `workspace-write` keeps `.git` read-only); that plan only changed the map file, so a migration that moves files is unverified on Codex.
 - The audits and session review have run in Claude Code, headless Codex CLI and headless Antigravity CLI without `--sandbox`; a repo-layout audit has run in the Antigravity IDE and the Codex desktop app, and its other flows are unverified. On Antigravity CLI, `agy plugin list` names `anneal` after installation.
-- Installing from the Foundry marketplace has not been observed on any host.
 
 ## The numbers
 
