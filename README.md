@@ -1,9 +1,9 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png" />
-    <img src="assets/banner-light.png" alt="anneal" width="900" />
+    <img src="assets/banner-light.png" alt="Anneal" width="900" />
   </picture>
-  <h1>anneal</h1>
+  <h1>Anneal</h1>
   <p><strong>Help coding agents find their way around an existing project.</strong></p>
 </div>
 
@@ -20,24 +20,34 @@
 
 ## What is this?
 
-Three packages have a discount function, and nothing says which one checkout uses. An agent reads two wrong ones first. This is an illustration, not a measurement.
+Anneal is a plugin for Claude Code, an AI coding assistant. It also runs on Codex and Antigravity, two other coding assistants. It makes a project easier to navigate.
 
-anneal finds what makes an agent search or guess more than it needs to. Use it on an existing project.
+Three folders each have a discount function, and nothing says which one checkout uses. The assistant reads two wrong ones first.
+
+Anneal finds what makes the assistant search or guess more than it needs to.
 
 <p align="center"><img src="assets/mascot.svg" alt="Ember stands among three folders that each hold a discount.js. A short map names cart/discount.js, and Ember points at it." width="700"></p>
 
-Ask for an audit with no edits. anneal lists what slows an agent down, with counts and example paths, and changes no file.
+*Ember is the mascot of the Foundry plugins. The scene is an illustration, not a measurement.*
+
+**You ask:** "What makes this project hard to navigate? Change nothing."
+
+**You get:** a list of what slows the assistant down, with counts and example paths. No file changes. An illustration; the [recorded demo](#the-numbers) replays a real one.
 
 ## Why you'd want it
 
-- **A short map instead of a search.**
-- **One command** for a step sessions keep repeating.
-- **Documentation** that matches the code.
-- **Nothing changes without your yes.**
+- **A map instead of a search.** A short file says where things are.
+- **Fewer repeated steps.** A step sessions keep repeating becomes one command.
+- **Docs that match the code.** Anneal reports where they disagree.
+- **Your yes comes first.** Nothing changes without it.
 
 ## How it works
 
-Each skill runs a script that reads your repository or a transcript, then reports. The scripts use no model.
+1. A script reads your project, or the saved record of a past session. It uses no AI model.
+2. Anneal reports what it found.
+3. You approve each change, or none.
+
+A skill is a command the plugin adds. Anneal adds four:
 
 | Skill | What it does | Changes files? |
 | --- | --- | --- |
@@ -46,15 +56,19 @@ Each skill runs a script that reads your repository or a transcript, then report
 | `session-review` | Reviews one session, or finds steps many sessions repeat | Only changes you choose |
 | `repo-docs` | Reports where documentation disagrees with behavior | Only with `fix` or a cleanup request |
 
-[How anneal works](docs/knowledge/how-it-works.md) lists every finding, option and hook.
+[How Anneal works](docs/knowledge/how-it-works.md) lists every finding, option and hook.
 
 ## What you can do
 
-Claude Code syntax shown; Codex uses `$<skill-name>`, Antigravity `/<skill-name>`.
+The table shows Claude Code's form. A skill's name differs by host:
 
-| Task | Request |
+| Claude Code | Codex | Antigravity |
+| --- | --- | --- |
+| `/anneal:overview` | `$overview` | `/overview` |
+
+| You want to | What to type |
 | --- | --- |
-| See what anneal finds and which skill to run next | `/anneal:overview` (Codex `$overview`, Antigravity `/overview`) |
+| See what Anneal finds and which skill to run next | `/anneal:overview` |
 | Audit without edits | `/anneal:repo-layout audit` |
 | Plan a migration and approve each step | `/anneal:repo-layout` |
 | Propose instruction changes from one session | `/anneal:session-review [transcript file]` |
@@ -63,50 +77,61 @@ Claude Code syntax shown; Codex uses `$<skill-name>`, Antigravity `/<skill-name>
 | Report where documentation disagrees with current behavior | `/anneal:repo-docs` |
 | Apply fixes, trim, adopt a policy, or work on one README | `/anneal:repo-docs [fix\|maintain\|adopt\|readme] [path or concern]` |
 
-Run the scan directly from the plugin folder; `--json` adds the evidence behind each count:
+To scan from the plugin folder yourself; the second form adds evidence:
 
 ```shell
 node scripts/audit.js --root "<your-repository>"
+node scripts/audit.js --root "<your-repository>" --json
 ```
 
 ### Settings
 
-| Setting | Values | Effect |
+| Setting | Values | What it does |
 | --- | --- | --- |
-| `ANNEAL_SESSION_REPORT` | `off`, `0` or `false` | Turns off the session-start line. Set it in the `env` block of Claude Code's `settings.json` or in the shell that starts the host. A running host does not pick up a new shell. Any other value leaves it on |
-| `CLAUDE_CONFIG_DIR`, `CODEX_HOME`, `CLAUDE_PROJECT_DIR` | a folder | Read as the host sets them, not anneal settings: the homes (defaults `~/.claude`, `~/.codex`) for global files, memory and transcripts, and the project the session-start line reads (default the working folder, or the top of its Git tree) |
+| `ANNEAL_SESSION_REPORT` | `off`, `0` or `false` | Turns off the line Anneal prints when a session starts. Any other value leaves it on. |
+| Where to set it | The `env` block of Claude Code's `settings.json`, or the shell that starts the host | A running host does not pick up a new shell. |
+| `CLAUDE_CONFIG_DIR`, `CODEX_HOME` | A folder; defaults `~/.claude` and `~/.codex` | Not Anneal settings. Anneal reads them as the host sets them, to find global files, memory and saved sessions. |
+| `CLAUDE_PROJECT_DIR` | A folder; default the working folder, or the top of its Git tree | Not an Anneal setting. It is the project the session-start line reads. |
 
 [Script options](docs/knowledge/how-it-works.md#script-options) lists each script's flags.
 
 ## Install
 
-Every host needs Node.js 22 or later; confirm `node --version`. A migration also needs a commit, a clean tree and `git config user.email`; audit mode does not.
+Every host needs Node.js 22 or later; confirm `node --version`. A migration, which moves files, also needs a commit, a clean tree and `git config user.email`. An audit does not.
 
 ### Claude Code
 
-Requirements: Node.js 22 or later, Git and Claude Code 2.1.323 or later.
+You need Claude Code 2.1.323 or later, and Git.
+
+Inside Claude Code, run:
 
 ```text
 /plugin marketplace add V-Songbird/foundry
 /plugin install anneal@foundry
 ```
 
-Start a new session. In a terminal, `claude plugin list` names `anneal` once installed.
+Then start a new session.
+
+To check that it worked, run `claude plugin list` in a terminal. The list names `anneal`.
 
 ### Codex
 
-Requirements: Git and a Codex host with plugin support.
+You need a Codex host with plugin support, and Git.
+
+In a terminal, run:
 
 ```text
 codex plugin marketplace add V-Songbird/foundry
 codex plugin add anneal@foundry
 ```
 
-In `/hooks`, trust the `SessionStart` hook and the two `PreToolUse` hooks; a changed hook needs [another review](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks). Then start a new session.
+In `/hooks`, trust the `SessionStart` hook and the two `PreToolUse` hooks. A hook is a program the host runs. A changed one needs another review; see [Codex hook trust](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks). Then start a new session.
 
 ### Antigravity
 
-Requirements: Git and the Antigravity CLI. Antigravity has no marketplace, so install from a Foundry clone. Replace `<path-to-clone>` with a directory:
+You need the Antigravity CLI, and Git. It has no marketplace for third-party plugins, so you install from a copy of the Foundry repository. Replace `<path-to-clone>` with a folder of your choice.
+
+In a terminal, run:
 
 ```shell
 git clone --recurse-submodules https://github.com/V-Songbird/foundry.git <path-to-clone>
@@ -114,25 +139,26 @@ agy plugin install <path-to-clone>/anneal
 agy plugin list
 ```
 
-The list names `anneal`; if not, install again. Start a new conversation. With `--sandbox`, headless `agy` runs no shell command.
+Then start a new conversation. The list names `anneal` when it worked.
 
 ### Update
 
-In Claude Code, then a new session:
+In Claude Code, run these. Then start a new session:
 
 ```text
 /plugin marketplace update foundry
 /plugin update anneal@foundry
 ```
 
-In Codex, review changed hooks in `/hooks`, then a new session:
+In Codex, run these. Then start a new session and review changed hooks in `/hooks`:
 
 ```text
 codex plugin marketplace upgrade
+codex plugin remove anneal@foundry
 codex plugin add anneal@foundry
 ```
 
-Antigravity installs a copy, so pull and install again:
+In Antigravity, run these. Then start a new conversation:
 
 ```shell
 git -C <path-to-clone> pull
@@ -144,25 +170,29 @@ agy plugin install <path-to-clone>/anneal
 
 > **Experimental.** No support or stability promise. It can change or disappear without a migration path.
 
-- Findings are heuristics; framework conventions and project instructions take precedence.
-- A map's paths are matched, not what its sentences mean.
-- Import rewriting covers relative imports and `require()` in JavaScript and TypeScript. Other languages, aliases and documents need review. Runtime-built names are never rewritten.
-- A session audit reads one session. Its causes rest on names, paths and order.
-- The many-sessions pass matches text and has run only in eval cases. Antigravity reads only files you hand it.
-- The overview has not run live on any host.
-- A host format change can break transcript parsing. Close-out reads Claude Code transcripts only.
-- Redaction is best effort, and the session file path is copied unredacted.
-- Documentation checks do not prove every claim safe or scan Git history.
-- A migration that moves files is unverified on Codex. A live hook refusal is unverified everywhere.
-- A sandbox can hide an ignore file; the audit names it in a `limitation:` line.
+| Limit | What it means for you |
+| --- | --- |
+| Findings are estimates | Framework conventions and your project's instructions take precedence. |
+| A map is matched by its paths | Anneal does not read what the map's sentences mean. |
+| Import rewriting is partial | It covers relative imports and `require()` in JavaScript and TypeScript. Other languages, aliases and documents need review. Names built at runtime are never rewritten. |
+| A session review reads one session | Its causes rest on names, paths and order. |
+| The many-sessions pass matches text | It has run only in test cases. On Antigravity it reads only files you hand it. |
+| The overview is untested live | It has not run live on any host. |
+| Saved-session formats can change | A host format change can break the reading. Close-out reads Claude Code sessions only. |
+| Redaction is best effort | The session file path is copied unredacted. |
+| Documentation checks are limited | They do not prove every claim safe, and they do not scan Git history. |
+| Some paths are unverified | A migration that moves files is unverified on Codex. A live hook refusal is unverified everywhere. |
+| A sandbox can hide an ignore file | The audit names it in a `limitation:` line. With `--sandbox`, headless `agy` runs no shell command. |
 
-[Limits](docs/knowledge/how-it-works.md#limits) holds the full list with its details.
+[Anneal limits](docs/knowledge/limits.md) states each one in full.
 
 ## The numbers
 
+Each figure comes from recorded test sessions. The figures describe those runs, not yours, and results vary between runs.
+
 ### Claude Code results
 
-The first table compares two map files. No session in it loaded the plugin.
+This table compares two map files, with no plugin loaded in any session.
 
 <!-- foundry:evidence {"platform":"Claude","status":"measured","models":["Claude Opus 5"],"source":"docs/knowledge/benchmarks.md","date":"unknown","dateReason":"The run date is not recorded.","revision":"not recorded","revisionReason":"The commit the run used is not recorded.","reviewedAt":"2026-11-16"} -->
 | Model | Map file | Correct runs | Contract characters read | Contract task cost |
@@ -172,34 +202,24 @@ The first table compares two map files. No session in it loaded the plugin.
 
 <p align="center"><img src="assets/hero.svg" alt="Contract characters read: about 123,000 with the original map file, about 31,000 with two Start here lines. Both scored 6 of 6. No run loaded the plugin." width="700"></p>
 
-The runs with the lines took 58 seconds against 45. Two runs per arm cannot show a small effect.
+The runs with the lines took 58 seconds against 45. Two runs each way cannot show a small effect.
 
-The newest table: 2026-11-09, Claude Agent SDK, `claude-opus-5-5`, 15 cases, three runs per arm.
+A newer batch tested the plugin itself: 2026-11-09, Claude Agent SDK, `claude-opus-5-5`, 15 cases, three runs each way.
 
-<!-- foundry:evidence {"platform":"Claude","status":"measured","models":["Claude Opus 5.5"],"source":"docs/knowledge/benchmarks.md","date":"2026-11-09","revision":"not recorded","revisionReason":"The commit the run used is not recorded.","reviewedAt":"2026-11-16"} -->
-| Model | Case | Grader | With anneal | Without |
-| --- | --- | --- | --- | --- |
-| Claude Opus 5.5 | `session-audit-keeps-a-machine-fact-out` | `machine-fact-for-the-global-file` | 3/3 | 1/3 |
-| Claude Opus 5.5 | `session-audit-suggests-check-writer-with-collet` | `check-writer-suggested` | 3/3 | 0/3 |
-| Claude Opus 5.5 | `readme-repair-without-the-word` | `node-before-install` | 3/3 | 1/3 |
-| Claude Opus 5.5 | `readme-repair-without-the-word` | `no-copy-prompt` | 3/3 | 2/3 |
-| Claude Opus 5.5 | `readme-review-reports-without-changes` | `names-badge-order` | 3/3 | 1/3 |
-| Claude Opus 5.5 | `writing-page-without-the-word` | `node-before-install` | 3/3 | 0/3 |
-| Claude Opus 5.5 | `plan-flags-a-wrong-importer-count` | `stale-row-flagged` | 3/3 | 1/3 |
-| Claude Opus 5.5 | `plan-flags-a-wrong-importer-count` | `stale-row-not-planned` | 3/3 | 0/3 |
+With Anneal, 13 of 15 cases passed every check in all three runs. Three runs each way are exploratory.
 
-With anneal, 13 of 15 cases passed every grader in all three runs. Three runs per arm are exploratory.
-
-**Where anneal lost.** A help-page review scored a reply grader 1 of 3 with the plugin and 3 of 3 without. One migration case stopped in every run with the plugin, for lack of a Git identity. One migration step cost $0.58 and 66 seconds with anneal, against $0.27 and 22 seconds without.
+**Where Anneal lost.** A help-page review passed one check 1 of 3 times with the plugin and 3 of 3 without. One migration case stopped in every run with the plugin, for lack of a Git identity. One migration step cost $0.58 and 66 seconds with Anneal, against $0.27 and 22 seconds without.
 
 <details>
-<summary>Replay one recorded audit on Claude Opus 5.5, 2026-11-16, 20 seconds, 8 of 8 graders passed</summary>
+<summary>Watch the recorded demo: one audit that changes no file, on Claude Opus 5.5</summary>
 
-<p align="center"><img src="assets/demo.svg" alt="One session, not a comparison. Asked for navigation problems with no edits, anneal names three of six: no map file, an unignored build folder and two same-name files. It changed no files." width="700"></p>
+<p align="center"><img src="assets/demo.svg" alt="One session, not a comparison. Asked to list navigation problems, Anneal names three of six and changes no file." width="700"></p>
+
+It ran 2026-11-16, took 20 seconds and passed 8 of 8 checks.
 
 </details>
 
-[anneal benchmarks](docs/knowledge/benchmarks.md) has every batch.
+[Anneal benchmarks](docs/knowledge/benchmarks.md) has every batch.
 
 ### Codex results
 
@@ -221,9 +241,11 @@ No Antigravity session has been measured yet.
 
 ## Going deeper
 
-[How anneal works](docs/knowledge/how-it-works.md) · [anneal benchmarks](docs/knowledge/benchmarks.md)
+[How Anneal works](docs/knowledge/how-it-works.md) · [Anneal limits](docs/knowledge/limits.md) · [Anneal benchmarks](docs/knowledge/benchmarks.md)
 
-[Release notes](https://github.com/V-Songbird/anneal/releases) · [Foundry](https://github.com/V-Songbird/foundry) · [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md)
+Release notes are on the [Anneal releases page](https://github.com/V-Songbird/anneal/releases). [Foundry](https://github.com/V-Songbird/foundry) lists the whole family.
+
+Report a bug or ask a question on [Anneal's issue tracker](https://github.com/V-Songbird/anneal/issues). Report a vulnerability as [SECURITY.md](SECURITY.md) says. To change Anneal, read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

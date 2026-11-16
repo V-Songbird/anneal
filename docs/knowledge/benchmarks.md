@@ -8,9 +8,9 @@ related_files:
   - assets/demo.svg
 ---
 
-# anneal benchmarks
+# Anneal benchmarks
 
-This page holds every measurement anneal publishes, with its model, sample size and limits. The README shows two of these tables, under [The numbers](../../README.md#the-numbers).
+This page holds every measurement Anneal publishes, with its model, sample size and limits. The README shows two of these tables, under [The numbers](../../README.md#the-numbers).
 
 Each result belongs to the named model and recorded run. Missing measurements remain marked as unmeasured. The raw records are kept outside this repository.
 
@@ -52,7 +52,7 @@ Held-out checks: the same protocol, host and model on a second repository with a
 ## Three eval cases
 
 <!-- foundry:evidence {"platform":"Claude","status":"measured","models":["Claude Opus 5"],"source":"docs/knowledge/benchmarks.md","date":"unknown","dateReason":"The run date is not recorded.","revision":"not recorded","revisionReason":"The commit the run used is not recorded.","reviewedAt":"2026-11-16"} -->
-| Model | Case | Score with anneal | Score without |
+| Model | Case | Score with Anneal | Score without |
 | --- | --- | --- | --- |
 | Claude Opus 5 | `audit-reports-without-changes` | 1.00 | 0.93 |
 | Claude Opus 5 | `migration-stops-on-uncommitted-work` | 1.00 | 0.83 |
@@ -64,14 +64,14 @@ Three cases, three runs per arm, 18 sessions, on Claude Code with its default mo
 
 On Claude Code under WSL2, three runs per arm unless noted:
 
-- An unreadable transcript (2026-09-23, model not recorded), one record cut: every run named the refusal. With anneal each stopped there and scored 1.00 (estimate $1.53); without it each read the file itself and still proposed a command from the refused part, scoring 0.75.
+- An unreadable transcript (2026-09-23, model not recorded), one record cut: every run named the refusal. With Anneal each stopped there and scored 1.00 (estimate $1.53); without it each read the file itself and still proposed a command from the refused part, scoring 0.75.
 - A map read with no code session (2026-09-23, model not recorded, no baseline arm): the map with `Start here` lines answered all four questions in every run (estimate $1.16); the original answered `not in the notes` for the package and section (estimate $0.38). Both scored 1.00.
-- One approved migration step with `claude-opus-5[1m]`, one run per arm, date not recorded: $0.58 and 66 seconds with anneal, $0.27 and 22 seconds without.
+- One approved migration step with `claude-opus-5[1m]`, one run per arm, date not recorded: $0.58 and 66 seconds with Anneal, $0.27 and 22 seconds without.
 
 ## First SDK baseline, 2026-11-09
 
 <!-- foundry:evidence {"platform":"Claude","status":"measured","models":["Claude Opus 5.5"],"source":"docs/knowledge/benchmarks.md","date":"2026-11-09","revision":"not recorded","revisionReason":"The commit the run used is not recorded.","reviewedAt":"2026-11-16"} -->
-| Model | Case | Grader | With anneal | Without |
+| Model | Case | Grader | With Anneal | Without |
 | --- | --- | --- | --- | --- |
 | Claude Opus 5.5 | `session-audit-keeps-a-machine-fact-out` | `machine-fact-for-the-global-file` | 3/3 | 1/3 |
 | Claude Opus 5.5 | `session-audit-suggests-check-writer-with-collet` | `check-writer-suggested` | 3/3 | 0/3 |
@@ -82,7 +82,7 @@ On Claude Code under WSL2, three runs per arm unless noted:
 | Claude Opus 5.5 | `plan-flags-a-wrong-importer-count` | `stale-row-flagged` | 3/3 | 1/3 |
 | Claude Opus 5.5 | `plan-flags-a-wrong-importer-count` | `stale-row-not-planned` | 3/3 | 0/3 |
 
-The first SDK baseline, on 2026-11-09: 15 cases, three runs with anneal and three without, on `claude-opus-5-5` through the Claude Agent SDK rather than a Claude Code session, with judged graders on `claude-sonnet-5-5`. The table lists every outcome grader where the arms differed, in six cases. With anneal, 13 of 15 cases passed every grader in all three runs. Four cases passed their outcome graders in every run of both arms, so they show nothing for the plugin until hardened. Graders that read anneal's own evidence output fail without the plugin by construction and are left out. Three runs per arm are exploratory.
+The first SDK baseline, on 2026-11-09: 15 cases, three runs with Anneal and three without, on `claude-opus-5-5` through the Claude Agent SDK rather than a Claude Code session, with judged graders on `claude-sonnet-5-5`. The table lists every outcome grader where the arms differed, in six cases. With Anneal, 13 of 15 cases passed every grader in all three runs. Four cases passed their outcome graders in every run of both arms, so they show nothing for the plugin until hardened. Graders that read Anneal's own evidence output fail without the plugin by construction and are left out. Three runs per arm are exploratory.
 
 Two cases did not pass every grader with the plugin. A help-page review scored a reply grader 1 of 3 with the plugin and 3 of 3 without, though every run in both arms named both planted defects. A migration into a new directory stopped in every run with the plugin because the session had no Git identity, which the runner now supplies. A rerun of both migration cases on 2026-11-09, same runner and model, three runs per arm, cost an estimated $1.32: with the plugin every run created the branch, moved the file, rewrote both imports and committed; without it none created the branch or an `anneal:` commit.
 
