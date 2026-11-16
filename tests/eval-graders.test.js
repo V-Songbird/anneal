@@ -703,7 +703,11 @@ describe("migration-applies-approved-step", () => {
     checks = graders(CASE);
     script = read(CASE, "approved-step-fixture.sh");
     gitEnv.GIT_CONFIG_GLOBAL = path.join(tempDir("anneal-graders-git-"), "config");
-    fs.writeFileSync(gitEnv.GIT_CONFIG_GLOBAL, "[core]\n\tlongpaths = true\n");
+    // No background maintenance: after a commit Git can start a detached
+    // `git maintenance run --auto`, which holds .git/objects/maintenance.lock
+    // for a moment, and a copy of the fixture that lists the lock and then
+    // finds it gone fails with ENOENT.
+    fs.writeFileSync(gitEnv.GIT_CONFIG_GLOBAL, "[core]\n\tlongpaths = true\n[maintenance]\n\tauto = false\n[gc]\n\tauto = 0\n");
     fixture = tempDir("anneal-graders-approved-");
     scaffold(fixture);
   });
