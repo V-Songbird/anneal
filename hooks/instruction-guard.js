@@ -19,8 +19,9 @@ const { HIDDEN_CHARACTERS } = require("../scripts/audit.js");
 const MAP_NAMES = ["claude.md", "agents.md", "gemini.md"];
 const INSTRUCTION_DIRS = [".agents/", ".claude/", ".cursor/rules/", ".gemini/"];
 const PATCH_HEADER = /^\s*\*\*\*\s+(?:(Add|Update|Delete)\s+File|Move to):\s*(.+?)\s*$/;
-const ANTIGRAVITY_TOOLS = new Set(["write_to_file", "replace_file_content", "multi_replace_file_content"]);
-const PATH_ARGS = new Set(["TargetFile", "AbsolutePath"]);
+const ANTIGRAVITY_TOOLS = new Set(["write_to_file", "replace_file_content", "multi_replace_file_content", "write_file", "edit_file"]);
+const WHOLE_FILE_TOOLS = new Set(["write_to_file", "write_file"]);
+const PATH_ARGS = new Set(["TargetFile", "AbsolutePath", "Path"]);
 
 const withoutBom = (text) => (text.charCodeAt(0) === 0xfeff ? text.slice(1) : text);
 const strings = (value) => (typeof value === "string" ? [value] : value && typeof value === "object" ? Object.values(value).flatMap(strings) : []);
@@ -33,7 +34,7 @@ function writes(host, data) {
     const args = call.args || {};
     if (!ANTIGRAVITY_TOOLS.has(call.name)) return [];
     const text = Object.entries(args).filter(([key]) => !PATH_ARGS.has(key)).flatMap(([, value]) => strings(value)).join("\n");
-    return [[args.AbsolutePath ?? args.TargetFile, call.name === "write_to_file" ? withoutBom(text) : text]];
+    return [[args.AbsolutePath ?? args.TargetFile ?? args.Path, WHOLE_FILE_TOOLS.has(call.name) ? withoutBom(text) : text]];
   }
   const input = data.tool_input || {};
   if (data.tool_name === "Write") return [[input.file_path, withoutBom(String(input.content ?? ""))]];

@@ -60,6 +60,8 @@ const SHAPES = {
     tool_input: { command: `*** Begin Patch\r\n*** Update File: ${file}\r\n@@\r\n context\r\n-old\r\n+${text}\r\n*** End Patch` },
   }],
   write_to_file: (root, file, text) => ["antigravity", { toolCall: { name: "write_to_file", args: { TargetFile: path.join(root, file), CodeContent: text } } }],
+  write_file: (root, file, text) => ["antigravity", { toolCall: { name: "write_file", args: { Path: path.join(root, file), Content: text, Overwrite: true } } }],
+  edit_file: (root, file, text) => ["antigravity", { workspacePaths: [root], toolCall: { name: "edit_file", args: { Path: path.join(root, file), Target: "world", Replacement: text } } }],
   replace_file_content: (root, file, text) => ["antigravity", {
     workspacePaths: [root], toolCall: { name: "replace_file_content", args: { TargetFile: file, ReplacementChunks: [{ ReplacementContent: text }] } },
   }],
