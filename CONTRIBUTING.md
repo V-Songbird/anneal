@@ -19,8 +19,9 @@ One package serves Claude Code, Codex and Antigravity.
 plugin.json             # Antigravity metadata and the same version
 hooks.json              # Antigravity event wiring, keyed by the plugin name
 LICENSE                 # MIT
-README.md               # the user guide: how it works, settings, install, results
-assets/                 # icon-on-light.png and icon-on-dark.png, which the manifests name
+README.md               # the front page: what it is, install, settings, results
+assets/                 # the icons the manifests name, the banners, host cards, Ember scene and evidence graphics the README shows
+docs/knowledge/         # how-it-works.md and benchmarks.md, the detail the README links
 skills/                 # overview, repo-layout, repo-docs and session-review, read by every host
 ├── skill-name/
 │   ├── SKILL.md        # skill definition
@@ -37,7 +38,7 @@ evals/                  # eval cases for `claude plugin eval`, with their fixtur
 tests/                  # Node tests
 ```
 
-Root JavaScript is CommonJS. The README is text only and names the host beside every host-specific instruction and result. Each result identifies its host, model, date and sample size; keep losses and limits, show `Not measured` where evidence is absent, and never present a Claude Code result as a Codex result.
+Root JavaScript is CommonJS. The README shows the art in `assets/`, keeps its detail on the pages in `docs/knowledge/`, and names the host beside every host-specific instruction and result. Each result identifies its host, model, date and sample size; keep losses and limits, show `Not measured` where evidence is absent, and never present a Claude Code result as a Codex result.
 
 **No anneal command edits a project on its bare name.** Audits report, and every change waits for the owner's approval of that step. A public file never names another project except where it was measured, and states only numbers that were measured.
 
