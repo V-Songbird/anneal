@@ -47,7 +47,7 @@ Anneal finds what makes the assistant search or guess more than it needs to.
 2. Anneal reports what it found.
 3. You approve each change, or none.
 
-A skill is a command the plugin adds. Anneal adds four:
+Anneal adds four skills, which are commands:
 
 | Skill | What it does | Changes files? |
 | --- | --- | --- |
@@ -204,11 +204,11 @@ This table compares two map files, with no plugin loaded in any session.
 
 The runs with the lines took 58 seconds against 45. Two runs each way cannot show a small effect.
 
-A newer batch tested the plugin itself: 2026-11-09, Claude Agent SDK, `claude-opus-5-5`, 15 cases, three runs each way.
+Another batch tested the plugin: 2026-11-09, Claude Agent SDK, `claude-opus-5-5`, 15 cases, three runs each way.
 
 With Anneal, 13 of 15 cases passed every check in all three runs. Three runs each way are exploratory.
 
-**Where Anneal lost.** A help-page review passed one check 1 of 3 times with the plugin and 3 of 3 without. One migration case stopped in every run with the plugin, for lack of a Git identity. One migration step cost $0.58 and 66 seconds with Anneal, against $0.27 and 22 seconds without.
+**Where Anneal lost.** A help-page review passed one check 1 of 3 times with the plugin and 3 of 3 without. One migration case stopped in every run with the plugin, for lack of a Git identity. One migration step cost $0.58 and 66 seconds with Anneal, against $0.27 and 22 seconds without (Claude Opus 5, once each).
 
 <details>
 <summary>Watch the recorded demo: one audit that changes no file, on Claude Opus 5.5</summary>

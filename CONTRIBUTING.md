@@ -21,7 +21,7 @@ hooks.json              # Antigravity event wiring, keyed by the plugin name
 LICENSE                 # MIT
 README.md               # the front page: what it is, install, settings, results
 assets/                 # the icons the manifests name, the banners, host cards, Ember scene and evidence graphics the README shows
-docs/knowledge/         # how-it-works.md and benchmarks.md, the detail the README links
+docs/knowledge/         # how-it-works.md, limits.md and benchmarks.md, the detail the README links
 skills/                 # overview, repo-layout, repo-docs and session-review, read by every host
 ├── skill-name/
 │   ├── SKILL.md        # skill definition

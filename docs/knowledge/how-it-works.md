@@ -45,7 +45,7 @@ An audit saves a file only after you say yes. A run nobody can answer, such as a
 
 `overview` gives two lines per part: navigation, documentation, past sessions and this session. Each line says what that part's script counted and which skill to run next.
 
-A part whose script cannot run shows `not available`. On the repository Anneal was developed in, a run took about 20 seconds, most of it reading 71 sessions.
+A part whose script cannot run shows `not available`. A run can take half a minute on a project with many past sessions.
 
 ## Layout audit
 
@@ -114,10 +114,6 @@ It stops, leaving your branch as it was, when any of these holds:
 - `git config user.email` is empty.
 
 The map file it writes has the sections `Start here`, `Rules that outrank everything`, `Commands`, `Where things live`, `Conventions` and `Pitfalls`. It omits any section with nothing true to say. Reshaping your existing map file is a step of its own and moves sentences without rewriting them.
-
-On the Claude Code version it ran on, Auto is the default permission mode. `claude --permission-mode manual` lets you answer each prompt. Answering No ends the turn, and a denied compound command does not say which part you refused, so name it.
-
-While `mapper` runs in the background, the input looks idle and the session goes on by itself. It took 45 seconds on a nine-file repository.
 
 ## Session review
 
@@ -257,7 +253,7 @@ It never writes to the folder, and refuses one without `MEMORY.md`.
 
 None of the hooks uses a model. The safety hook and instruction guard run on all three hosts. The session-start line has no Antigravity hook.
 
-The guard watches `Write`, `Edit`, `MultiEdit` and `apply_patch` on Claude Code and Codex. On Antigravity it watches `write_to_file`, `replace_file_content`, `multi_replace_file_content`, `write_file` and `edit_file`. Antigravity CLI sent `write_file` for a created file and `edit_file` for an edit in a live payload, and the older three names stay watched. The refusal on those two names is checked by tests, not by a live session.
+The guard watches `Write`, `Edit`, `MultiEdit` and `apply_patch` on Claude Code and Codex. On Antigravity it watches `write_to_file`, `replace_file_content`, `multi_replace_file_content`, `write_file` and `edit_file`. Antigravity CLI sends `write_file` for a created file and `edit_file` for an edit. The refusal on those two names is checked by tests, not by a live session.
 
 ### Safety hook
 
@@ -274,7 +270,7 @@ It also refuses commands that rewrite those commits: `commit --amend`, `rebase` 
 
 On any other branch it asks before a command deletes, overwrites or moves a migration branch holding commits the checked-out branch lacks.
 
-Codex's documentation, read on 2026-11-14, says it parses the question but does not support it. There the hook refuses and you run the command yourself outside the session. Antigravity's documentation, read the same day, lists the question as a prompt. Neither answer was observed live.
+Codex's documentation says it parses the question but does not support it. There the hook refuses and you run the command yourself outside the session. Antigravity's documentation lists the question as a prompt. Neither answer has been observed live.
 
 The hook matches command text, so git run through a variable escapes it.
 
