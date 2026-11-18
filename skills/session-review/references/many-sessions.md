@@ -17,7 +17,7 @@ Copy this checklist into your reply and tick it as you go.
 - [ ] 2. Each finding verified against its example lines
 - [ ] 3. Each finding routed
 - [ ] 4. Approved entries applied, diff shown
-- [ ] 5. Report written
+- [ ] 5. Report written, with the unused tools and skills on Claude Code
 
 ## 1. Collect the findings
 
@@ -82,4 +82,21 @@ A saved map file is not loaded into a session that is already running. Say so.
 - the entries applied, and the map file's line count before and after;
 - what was reported and not written: each prompt for the global instructions, each check worth writing, each step for CI, a hook or a schedule, and each navigation finding for another skill or a source;
 - what was dismissed, and why;
+- on Claude Code, the unused tools and skills, as below;
 - `skipped`, and the script's `limits`: matches are text equality after normalization, a step is listed and not judged, a navigation finding's cause is a hypothesis and each transcript gives at most 30 candidates, Antigravity sessions come only from files handed in, redaction is best effort, subagent transcripts and forked Codex rollouts count toward their parent session, and a Claude Code record another transcript copied counts once.
+
+### Unused tools and skills, on Claude Code
+
+Claude Code sends every tool definition and every skill description with each request. Its transcripts record that listing, so one more script can name what these sessions were sent and never called. Run it with the same root, folders and files as step 1:
+
+```
+node "<plugin root>/scripts/session-tools.js" --root "<git rev-parse --show-toplevel>"
+```
+
+It reads only Claude Code sessions and writes nothing. Skip it on Codex and Antigravity, whose transcripts carry no listing, and when it exits 2.
+
+- `unusedTools` and `unusedSkills` hold what at least `--min-sessions` sessions listed (3 by default) and no session read called, largest first, `--limit` of each (10 by default). `chars` is the size of the definition in characters. State no token count: none is measured.
+- `omitted` counts what the limit left out, and the tools of tool servers, which are never listed: a server is switched off whole in its own settings.
+- `paste` holds the lines for the owner's Claude Code settings: `permissions.deny` for the tools, and `skillOverrides` with `name-only` for the skills.
+
+Report the two lists, `sessionsRead` and `paste` to the owner, with the script's `limits`. **Never write a settings file, in the repository or outside it.** Unused in these sessions does not mean never needed: a denied tool cannot be called at all, so say which tools the owner may still want, such as one a rare task needs. A skill set to `name-only` keeps its name in the listing and can still be invoked.

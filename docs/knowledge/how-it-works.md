@@ -165,6 +165,10 @@ It proposes nothing when a step needed judgement or the map names it. Otherwise 
 
 A prompt repeated across repositories, a step for CI or a schedule, and a mistake a machine could catch are reported, never written. It applies only what you approve and commits nothing unless asked.
 
+On Claude Code the pass also runs `session-tools.js`. Claude Code records the tool definitions and skill descriptions it sent each session. The script lists each one that at least 3 sessions were sent and none called, largest first, with its size in characters. A typed slash command and a subagent's call count as use. Tools of a tool server are counted, not listed.
+
+It prints the lines you could paste into your own Claude Code settings: `permissions.deny` for tools, and `skillOverrides` with `name-only` for skills. Anneal never writes a settings file.
+
 ## Documentation
 
 `repo-docs` inventories maintained documentation and reviews every README with its checker. It runs the layout audit without its migration. It checks claims, references, host instructions, setup and ignore rules against evidence.
@@ -305,6 +309,7 @@ Besides `--root` and `--json` where a script prints JSON:
 | `session-evidence.js` | `--before-line <line>`, `--before <time>` and `--limit <n>` (6; 30 at most) |
 | `session-closeout.js` | `--session-id` or `--session-file` |
 | `session-repeats.js` | `--sessions-dir`, `--session-file`, `--also-root`, `--min-sessions <2-20>` (3) and `--limit <1-30>` (10) |
+| `session-tools.js` | `--sessions-dir`, `--session-file`, `--min-sessions <1-20>` (3) and `--limit <1-30>` (10) |
 | `docs-check.js` | `--index` |
 | `docs-maintenance.js` | `--store`, `--transcripts` and `--memory` (repeatable) |
 | `readme-check.js` | `--tier` |

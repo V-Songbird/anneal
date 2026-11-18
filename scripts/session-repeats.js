@@ -645,4 +645,4 @@ function fail(message, code) {
 
 if (require.main === module) process.exitCode = main(process.argv);
 
-module.exports = { main, promptKey, normalizer, codexCommand, argument };
+module.exports = { main, promptKey, normalizer, codexCommand, argument, repositoryPaths, discover, transcriptsIn, subagentsOf };
