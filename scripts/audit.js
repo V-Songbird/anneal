@@ -695,7 +695,7 @@ function audit(rootArg, options = {}) {
   }
 
   const contents = scanContents(root, codeFiles);
-  if (contents.large.length) add("large-files", "medium", `Code files over ${LARGE_FILE_LINES} lines, expensive to read whole`, contents.large.map(sized));
+  if (contents.large.length) add("large-files", "medium", `Code files over ${LARGE_FILE_LINES} lines: read them by range; size alone is no reason to split`, contents.large.map(sized));
   if (contents.runtimeNames.length) add("runtime-names", "low", "Names built at runtime, which search can't follow", contents.runtimeNames);
   if (contents.defaultExports.length) add("default-exports", "low", "Default exports, which can be imported under another name", contents.defaultExports);
   if (contents.reexportFiles.length) add("re-export-files", "low", "Index files that only re-export, adding a hop to every lookup", contents.reexportFiles);
