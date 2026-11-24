@@ -310,6 +310,7 @@ Besides `--root` and `--json` where a script prints JSON:
 | `session-closeout.js` | `--session-id` or `--session-file` |
 | `session-repeats.js` | `--sessions-dir`, `--session-file`, `--also-root`, `--min-sessions <2-20>` (3) and `--limit <1-30>` (10) |
 | `session-tools.js` | `--sessions-dir`, `--session-file`, `--min-sessions <1-20>` (3) and `--limit <1-30>` (10) |
+| `session-draft-check.js` | a file path, or the draft on standard input; it takes neither `--root` nor `--json` and always prints JSON |
 | `docs-check.js` | `--index` |
 | `docs-maintenance.js` | `--store`, `--transcripts` and `--memory` (repeatable) |
 | `readme-check.js` | `--tier` |
