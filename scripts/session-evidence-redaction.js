@@ -128,16 +128,29 @@ function visible(text) {
   return shown + text.slice(last);
 }
 
+// Each rule is a pattern and what a match becomes. redact applies them and draftHits locates them, so the two agree.
+const SECRET_RULES = [
+  [/\bsk-[A-Za-z0-9_-]{16,}\b/g, () => "[REDACTED]"],
+  [/\b(Bearer|Basic)(\s+)([A-Za-z0-9._~+/-]+=*)/gi, (match, scheme, space, token) => (
+    isCredential(token) ? `${scheme}${space}[REDACTED]` : match)],
+  [/\b((?:set-)?cookie\s*:)\s*[^\r\n]+/gim, (match, name) => `${name} [REDACTED]`],
+  [/(https?:\/\/)[^/\s:@]+:[^/\s@]+@/g, (match, scheme) => `${scheme}[REDACTED]@`],
+  [/(--(?:api-key|access-token|password|secret|token)\s+)\S+/gi, (match, flag) => `${flag}[REDACTED]`],
+  [NAMED_SECRET, (match, name, secret) => (CODE_VALUE.test(secret) ? match : `${name}[REDACTED]`)],
+];
+
+const column = (value) => (ACCOUNT.names.test(value) ? PLACEHOLDER : value);
+const ACCOUNT_RULES = ACCOUNT ? [
+  [ACCOUNT.segment, () => PLACEHOLDER],
+  [ACCOUNT.key, (match, lead) => `${lead}${PLACEHOLDER}`],
+  [ACCOUNT.folder, (match, lead) => `${lead}${PLACEHOLDER}`],
+  [ACCOUNT.listing, (line, lead, owner, gap, group) => `${lead}${column(owner)}${gap}${column(group)}`],
+] : [];
+
+const applyRule = (text, [pattern, replace]) => text.replace(pattern, replace);
+
 function redact(value) {
-  const text = String(value)
-    .replace(/\bsk-[A-Za-z0-9_-]{16,}\b/g, "[REDACTED]")
-    .replace(/\b(Bearer|Basic)(\s+)([A-Za-z0-9._~+/-]+=*)/gi, (match, scheme, space, token) => (
-      isCredential(token) ? `${scheme}${space}[REDACTED]` : match))
-    .replace(/\b((?:set-)?cookie\s*:)\s*[^\r\n]+/gim, "$1 [REDACTED]")
-    .replace(/(https?:\/\/)[^/\s:@]+:[^/\s@]+@/g, "$1[REDACTED]@")
-    .replace(/(--(?:api-key|access-token|password|secret|token)\s+)\S+/gi, "$1[REDACTED]")
-    .replace(NAMED_SECRET, (match, name, secret) => (CODE_VALUE.test(secret) ? match : `${name}[REDACTED]`));
-  return visible(withoutAccount(withoutHome(text)));
+  return visible(withoutAccount(withoutHome(SECRET_RULES.reduce(applyRule, String(value)))));
 }
 
 // The home directory shortened to ~, and nothing else changed.
@@ -147,11 +160,51 @@ function withoutHome(text) {
 
 // The account name replaced by the placeholder in its known shapes, once the home is shortened.
 function withoutAccount(text) {
-  if (!ACCOUNT) return text;
-  const column = (value) => (ACCOUNT.names.test(value) ? PLACEHOLDER : value);
-  return text.replace(ACCOUNT.segment, PLACEHOLDER).replace(ACCOUNT.key, `$1${PLACEHOLDER}`)
-    .replace(ACCOUNT.folder, `$1${PLACEHOLDER}`)
-    .replace(ACCOUNT.listing, (line, lead, owner, gap, group) => `${lead}${column(owner)}${gap}${column(group)}`);
+  return ACCOUNT_RULES.reduce(applyRule, text);
+}
+
+// The part of a match its replacement changes, so a hit covers the value and not the name before it.
+function changedSpan(match, replaced) {
+  const shorter = Math.min(match.length, replaced.length);
+  let start = 0;
+  while (start < shorter && match[start] === replaced[start]) start++;
+  let end = 0;
+  while (end < shorter - start && match.at(-1 - end) === replaced.at(-1 - end)) end++;
+  return { start, length: match.length - start - end };
+}
+
+// Where redact would change a draft, as { kind, index, length } in text order and never the text. A hit inside a longer
+// one is dropped, such as the account name inside a home path. Text already redacted is no hit. A change no rule can
+// place is still reported, and a machine with no home to compare with throws, so a draft is never passed unchecked.
+function draftHits(text) {
+  if (!HOME_PATH) throw Object.assign(new Error("no home directory"), { code: "no home directory to check against" });
+  const rules = [
+    ...SECRET_RULES.map((rule) => ["secret", ...rule]),
+    ["home", HOME_PATH, () => "~"],
+    ...ACCOUNT_RULES.map((rule) => ["account", ...rule]),
+  ];
+  const found = [];
+  for (const [kind, pattern, replace] of rules) {
+    for (const match of text.matchAll(pattern)) {
+      const { start, length } = changedSpan(match[0], replace(...match));
+      if (length > 0) found.push({ kind, index: match.index + start, length });
+    }
+  }
+  for (const match of text.matchAll(HIDDEN_CHARACTERS)) {
+    found.push({ kind: "hidden-character", index: match.index, length: match[0].length });
+  }
+  found.sort((a, b) => a.index - b.index || b.length - a.length);
+  let reach = 0;
+  const hits = found.filter(({ index, length }) => {
+    if (index + length <= reach) return false;
+    reach = index + length;
+    return true;
+  });
+  const redacted = redact(text);
+  if (hits.length || redacted === text) return hits;
+  let index = 0;
+  while (text[index] === redacted[index]) index++;
+  return [{ kind: "unlocated", index, length: 1 }];
 }
 
 function cut(text, size) {
@@ -219,4 +272,4 @@ function timeOf(row) {
   return row.timestamp ? excerpt(row.timestamp, 120) : null;
 }
 
-module.exports = { HOME, bounded, cut, directory, excerpt, failureExcerpt, redact, timeOf };
+module.exports = { HOME, bounded, cut, directory, draftHits, excerpt, failureExcerpt, redact, timeOf };
