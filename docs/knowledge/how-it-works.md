@@ -15,7 +15,7 @@ related_files:
 
 # How Anneal works
 
-This page says what each Anneal skill reads, reports and may change. It is for a user who wants to predict what Anneal will do. The short form is in the README, under [How it works](../../README.md#how-it-works).
+This page says what each Anneal skill reads, reports and may change. It is for a user who wants to predict what Anneal will do. The short form is in the README, under [What does it do?](../../README.md#what-does-it-do).
 
 Each skill runs a script that reads your repository or a session transcript, then reports. The scripts use no model, write nothing and are dependency-free Node.js. Findings are heuristics, none verified.
 
@@ -29,6 +29,8 @@ An audit saves a file only after you say yes. A run nobody can answer, such as a
 
 ## Contents
 
+- [The four skills](#the-four-skills)
+- [What you can do](#what-you-can-do)
 - [Overview](#overview)
 - [Layout audit](#layout-audit)
 - [Start context, drift and left-behind memory](#start-context-drift-and-left-behind-memory)
@@ -40,6 +42,58 @@ An audit saves a file only after you say yes. A run nobody can answer, such as a
 - [Documentation](#documentation)
 - [Hooks](#hooks)
 - [Script options](#script-options)
+
+## The four skills
+
+What you get:
+
+- **A map, not a search.** A short file says where things are.
+- **Fewer repeated steps.** A step sessions keep repeating becomes one command.
+- **Docs that match the code.** Anneal reports where they disagree.
+- **Your yes comes first.** Nothing changes without it.
+
+How a run goes:
+
+1. A script reads your project, or the saved record of a past session. It uses no AI model.
+2. Anneal reports what it found.
+3. You approve each change, or none.
+
+Anneal adds four skills, which are commands:
+
+| Skill | What it does | Changes files? |
+| --- | --- | --- |
+| `overview` | Says what anneal finds here and which skill to run next | Never |
+| `repo-layout` | Audits layout, or plans a migration | Only steps you approve |
+| `session-review` | Reviews one session, or finds steps many sessions repeat | Only changes you choose |
+| `repo-docs` | Reports where documentation disagrees with behavior | Only with `fix` or a cleanup request |
+
+## What you can do
+
+The table shows Claude Code's form. A skill's name differs by host:
+
+| Claude Code | Codex | Antigravity |
+| --- | --- | --- |
+| `/anneal:overview` | `$overview` | `/overview` |
+
+| You want to | What to type |
+| --- | --- |
+| See what Anneal finds and which skill to run next | `/anneal:overview` |
+| Audit without edits | `/anneal:repo-layout audit` |
+| Plan a migration and approve each step | `/anneal:repo-layout` |
+| Propose instruction changes from one session | `/anneal:session-review [transcript file]` |
+| Check whether deleting a finished session would lose work | `/anneal:session-review closeout <session id or transcript file>` |
+| Find what many sessions repeat | `/anneal:session-review all [sessions folder or transcript files]` |
+| Report where documentation disagrees with current behavior | `/anneal:repo-docs` |
+| Apply fixes, trim, adopt a policy, or work on one README | `/anneal:repo-docs [fix\|maintain\|adopt\|readme] [path or concern]` |
+
+To scan from the plugin folder yourself; the second form adds evidence:
+
+```shell
+node scripts/audit.js --root "<your-repository>"
+node scripts/audit.js --root "<your-repository>" --json
+```
+
+[Script options](#script-options) lists each script's flags.
 
 ## Overview
 
@@ -298,7 +352,7 @@ It names `status: completed` notes (count, up to ten paths) as soon as they are 
 
 ## Script options
 
-Anneal has no settings file or panel: you choose a skill and its mode. The one environment switch, `ANNEAL_SESSION_REPORT`, is in the README's [Settings](../../README.md#settings).
+Anneal has no settings file or panel: you choose a skill and its mode. The one environment switch, `ANNEAL_SESSION_REPORT`, is on [Anneal settings](settings.md).
 
 Besides `--root` and `--json` where a script prints JSON:
 
