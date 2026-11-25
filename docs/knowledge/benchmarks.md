@@ -10,7 +10,7 @@ related_files:
 
 # Anneal benchmarks
 
-This page holds every measurement Anneal publishes, with its model, sample size and limits. The README shows the map file runs table, the SDK run in prose, the losses table and the recorded demo, under [The numbers](../../README.md#the-numbers).
+This page holds every measurement Anneal publishes, with its model, sample size and limits. The README gives the map file result in prose, under [Does it work?](../../README.md#does-it-work).
 
 Each result belongs to the named model and recorded run. Missing measurements remain marked as unmeasured. The raw records are kept outside this repository.
 
@@ -40,6 +40,8 @@ The first two tables compare two map files, not sessions with and without anneal
 | Claude Opus 5 | With two `Start here` lines | 6/6 | About 31,000 | $0.68 |
 
 Paired navigation runs: Claude Code under WSL2 with `claude-opus-5[1m]`, twelve runs, three tasks by two map files by two fresh sessions. The arms did not differ in correctness. Characters and list-price cost cover the two contract-task runs per arm; those with the lines took 58 seconds against 45. In the package lookup the original runs opened three decoy files and the others one. In the control task, which needs no orientation, the lines cost 244 characters and the oriented runs used 8 tool calls against 11. Two runs per arm cannot tell a small effect from noise.
+
+<p align="center"><img src="../../assets/hero.svg" alt="Contract characters read: about 123,000 with the original map file, about 31,000 with two Start here lines. Both scored 6 of 6. No run loaded the plugin." width="700"></p>
 
 ## Held-out map file runs
 
@@ -86,7 +88,16 @@ Two cases did not pass every grader with the plugin. A help-page review scored a
 
 ## Recorded demo, 2026-11-16
 
-The README's demo is one recorded session on Claude Code with Claude Opus 5.5, on 2026-11-16. It is not a comparison and not a sample.
+<details>
+<summary>Watch the recorded demo: one audit that changes no file, on Claude Opus 5.5</summary>
+
+<p align="center"><img src="../../assets/demo.svg" alt="One session, not a comparison. Asked to list navigation problems, Anneal names three of six and changes no file." width="700"></p>
+
+It ran 2026-11-16, took 20 seconds and passed 8 of 8 checks.
+
+</details>
+
+The demo is one recorded session on Claude Code with Claude Opus 5.5, on 2026-11-16. It is not a comparison and not a sample.
 
 Method: the session was asked to list navigation problems. Anneal named three of six and changed no file. The run took 20 seconds and passed 8 of 8 checks.
 

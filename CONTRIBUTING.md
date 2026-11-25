@@ -34,7 +34,7 @@ README.md                # the front page: what it is, install, settings, result
 assets/                  # the icons the manifests name, the banners, host cards,
                          # Ember scene and evidence graphics the README shows
 docs/
-└── knowledge/           # how-it-works.md, limits.md and benchmarks.md
+└── knowledge/           # how-it-works.md, install.md, settings.md, limits.md and benchmarks.md
 skills/                  # overview, repo-layout, repo-docs and session-review
 └── <skill>/
     ├── SKILL.md         # skill definition
