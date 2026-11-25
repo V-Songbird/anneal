@@ -10,7 +10,7 @@ related_files:
 
 # Anneal benchmarks
 
-This page holds every measurement Anneal publishes, with its model, sample size and limits. The README shows two of these tables, under [The numbers](../../README.md#the-numbers).
+This page holds every measurement Anneal publishes, with its model, sample size and limits. The README shows the map file runs table, the SDK run in prose, the losses table and the recorded demo, under [The numbers](../../README.md#the-numbers).
 
 Each result belongs to the named model and recorded run. Missing measurements remain marked as unmeasured. The raw records are kept outside this repository.
 
@@ -22,6 +22,8 @@ Each result belongs to the named model and recorded run. Missing measurements re
 - [Three eval cases](#three-eval-cases)
 - [One migration step](#one-migration-step)
 - [SDK run, 2026-11-09](#sdk-run-2026-11-09)
+- [Recorded demo, 2026-11-16](#recorded-demo-2026-11-16)
+- [Losses](#losses)
 - [Codex results](#codex-results)
 - [Antigravity results](#antigravity-results)
 
@@ -81,6 +83,22 @@ One approved migration step on Claude Code under WSL2 with `claude-opus-5[1m]`, 
 The SDK run, on 2026-11-09: 15 cases, three runs with Anneal and three without, on `claude-opus-5-5` through the Claude Agent SDK rather than a Claude Code session, with judged graders on `claude-sonnet-5-5`. The table lists every outcome grader where the arms differed, in six cases. With Anneal, 13 of 15 cases passed every grader in all three runs. Four cases passed their outcome graders in every run of both arms, so they show nothing for the plugin until hardened. Graders that read Anneal's own evidence output fail without the plugin by construction and are left out. Three runs per arm are exploratory.
 
 Two cases did not pass every grader with the plugin. A help-page review scored a reply grader 1 of 3 with the plugin and 3 of 3 without, though every run in both arms named both planted defects. A migration into a new directory stopped in every run with the plugin because the session had no Git identity. A second run of both migration cases on 2026-11-09, same runner and model, three runs per arm, cost an estimated $1.32: with the plugin every run created the branch, moved the file, rewrote both imports and committed; without it none created the branch or an `anneal:` commit.
+
+## Recorded demo, 2026-11-16
+
+The README's demo is one recorded session on Claude Code with Claude Opus 5.5, on 2026-11-16. It is not a comparison and not a sample.
+
+Method: the session was asked to list navigation problems. Anneal named three of six and changed no file. The run took 20 seconds and passed 8 of 8 checks.
+
+Limits: one session cannot show how often Anneal finds the same three problems. The six problems are the ones in that repository, so the count does not carry to yours. The README does not state the plugin revision, the cost or the list of the 8 checks, so this page does not either.
+
+## Losses
+
+Every loss the page holds, in one place. Each is a small sample and describes one run, not yours.
+
+- **Help-page review reply grader.** In the [SDK run](#sdk-run-2026-11-09), a reply grader passed 1 of 3 times with Anneal and 3 of 3 without. Every run in both arms named both planted defects.
+- **Migration case with no Git identity.** In the same run, a migration into a new directory stopped in every run with the plugin, because the session had no Git identity.
+- **Migration step cost.** In [One migration step](#one-migration-step), the step cost $0.58 and 66 seconds with Anneal, against $0.27 and 22 seconds without. One run per arm, date not recorded.
 
 ## Codex results
 
