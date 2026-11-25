@@ -125,7 +125,9 @@ codex plugin marketplace add V-Songbird/foundry
 codex plugin add anneal@foundry
 ```
 
-In `/hooks`, trust the `SessionStart` hook and the two `PreToolUse` hooks. A hook is a program the host runs. A changed one needs another review; see [Codex hook trust](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks). Then start a new session.
+In `/hooks`, trust the `SessionStart` hook and the two `PreToolUse` hooks. A hook is a program the host runs, and [Codex hook trust](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks) says a changed one needs another review. Then start a new session.
+
+To check that it worked, run `codex plugin list --marketplace foundry` in a terminal. The list names `anneal`.
 
 ### Antigravity
 
@@ -181,7 +183,7 @@ agy plugin install <path-to-clone>/anneal
 | Saved-session formats can change | A host format change can break the reading. Close-out reads Claude Code sessions only. |
 | Redaction is best effort | The session file path is copied unredacted. |
 | Documentation checks are limited | They do not prove every claim safe, and they do not scan Git history. |
-| Some paths are unverified | A migration that moves files is unverified on Codex. A live hook refusal is unverified everywhere. |
+| Some paths are unverified | A migration that moves files is unverified on Codex. The instruction guard's live refusal is unverified on every host. |
 | A sandbox can hide an ignore file | The audit names it in a `limitation:` line. With `--sandbox`, headless `agy` runs no shell command. |
 
 [Anneal limits](docs/knowledge/limits.md) states each one in full.
@@ -206,9 +208,15 @@ The runs with the lines took 58 seconds against 45. Two runs each way cannot sho
 
 Another batch tested the plugin: 2026-11-09, Claude Agent SDK, `claude-opus-5-5`, 15 cases, three runs each way.
 
-With Anneal, 13 of 15 cases passed every check in all three runs. Three runs each way are exploratory.
+With Anneal, 13 of 15 cases passed every check in all three runs. These runs are exploratory.
 
-**Where Anneal lost.** A help-page review passed one check 1 of 3 times with the plugin and 3 of 3 without. One migration case stopped in every run with the plugin, for lack of a Git identity. One migration step cost $0.58 and 66 seconds with Anneal, against $0.27 and 22 seconds without (Claude Opus 5, once each).
+**Where Anneal lost.**
+
+| Loss | What happened |
+| --- | --- |
+| A help-page review | One check passed 1 of 3 times with the plugin and 3 of 3 without. |
+| A migration case | It stopped in every run with the plugin, for lack of a Git identity. |
+| One migration step | It cost $0.58 and 66 seconds with Anneal, against $0.27 and 22 seconds without. It ran once each on Claude Opus 5, and its date was not recorded. |
 
 <details>
 <summary>Watch the recorded demo: one audit that changes no file, on Claude Opus 5.5</summary>
