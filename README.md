@@ -180,7 +180,7 @@ agy plugin install <path-to-clone>/anneal
 | A session review reads one session | Its causes rest on names, paths and order. |
 | The many-sessions pass matches text | It has run only in test cases. On Antigravity it reads only files you hand it. |
 | The overview is untested live | It has not run live on any host. |
-| The unused-tools report reads Claude Code only | That a setting removes a tool definition was read in Claude Code 2.1.326, not measured. It counts characters, not tokens. |
+| The unused-tools report reads Claude Code only | That a setting removes a tool definition was read in one Claude Code release, not measured. It counts characters, not tokens. |
 | Saved-session formats can change | A host format change can break the reading. Close-out reads Claude Code sessions only. |
 | Redaction is best effort | The session file path is copied unredacted. |
 | Documentation checks are limited | They do not prove every claim safe, and they do not scan Git history. |
@@ -205,7 +205,7 @@ This table compares two map files, with no plugin loaded in any session.
 
 <p align="center"><img src="assets/hero.svg" alt="Contract characters read: about 123,000 with the original map file, about 31,000 with two Start here lines. Both scored 6 of 6. No run loaded the plugin." width="700"></p>
 
-The runs with the lines took 58 seconds against 45. Two runs each way cannot show a small effect.
+The runs with the lines took 58 seconds against 45. The run date is not recorded. Two runs each way cannot show a small effect.
 
 Another batch tested the plugin: 2026-11-09, Claude Agent SDK, `claude-opus-5-5`, 15 cases, three runs each way.
 
