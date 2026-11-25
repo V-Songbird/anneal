@@ -36,7 +36,7 @@ Anneal finds what makes the assistant search or guess more than it needs to.
 
 ## Why you'd want it
 
-- **A map instead of a search.** A short file says where things are.
+- **A map, not a search.** A short file says where things are.
 - **Fewer repeated steps.** A step sessions keep repeating becomes one command.
 - **Docs that match the code.** Anneal reports where they disagree.
 - **Your yes comes first.** Nothing changes without it.
@@ -152,7 +152,7 @@ In Claude Code, run these. Then start a new session:
 /plugin update anneal@foundry
 ```
 
-In Codex, run these. Then start a new session and review changed hooks in `/hooks`:
+In Codex, run these. Then start a new session. A changed hook stays off until you trust it again in `/hooks`:
 
 ```text
 codex plugin marketplace upgrade
@@ -180,6 +180,7 @@ agy plugin install <path-to-clone>/anneal
 | A session review reads one session | Its causes rest on names, paths and order. |
 | The many-sessions pass matches text | It has run only in test cases. On Antigravity it reads only files you hand it. |
 | The overview is untested live | It has not run live on any host. |
+| The unused-tools report reads Claude Code only | That a setting removes a tool definition was read in Claude Code 2.1.326, not measured. It counts characters, not tokens. |
 | Saved-session formats can change | A host format change can break the reading. Close-out reads Claude Code sessions only. |
 | Redaction is best effort | The session file path is copied unredacted. |
 | Documentation checks are limited | They do not prove every claim safe, and they do not scan Git history. |

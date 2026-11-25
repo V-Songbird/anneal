@@ -10,7 +10,7 @@ related_files:
 
 # Anneal benchmarks
 
-This page holds every measurement Anneal publishes, with its model, sample size and limits. The README shows two of these tables, under [The numbers](../../README.md#the-numbers).
+This page holds every measurement Anneal publishes, with its model, sample size and limits. The README shows the map file runs table, the SDK run in prose, the losses table and the recorded demo, under [The numbers](../../README.md#the-numbers).
 
 Each result belongs to the named model and recorded run. Missing measurements remain marked as unmeasured. The raw records are kept outside this repository.
 
