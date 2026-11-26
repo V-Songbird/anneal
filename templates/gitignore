@@ -36,6 +36,10 @@ id_ed25519
 CLAUDE.local.md
 AGENTS.override.md
 
+# Foreman's roadmap and its state; delete both lines to version the roadmap instead
+ROADMAP.jsonl
+.foreman/
+
 # Reproducible dependency and interpreter caches
 node_modules/
 __pycache__/

@@ -19,6 +19,9 @@ const LOCAL_ONLY = ".private";
 const PRIVATE_DOCS = ["docs/tasks", "docs/decisions", "docs/knowledge/private", "docs/apis/private"];
 const PUBLIC_PATHS = ["docs/README.md", "docs/knowledge/current-contract.md", "docs/apis/current-api.md"];
 const PROBE = "docs-check-probe.md";
+// A project uses Foreman when either sits at its root.
+const FOREMAN_ROADMAP = "ROADMAP.jsonl";
+const FOREMAN_DIR = ".foreman";
 // At any depth, as the nested `**/docs/tasks/` ignore rules apply.
 const LOCAL_PATH = /(^|\/)\.private(\/|$)/;
 const PRIVATE_DOC_PATH = /(^|\/)docs\/(tasks|decisions|knowledge\/private|apis\/private)(\/|$)/;
@@ -197,6 +200,14 @@ function check(directory) {
   const tracked = listing.stdout.split("\0").filter(Boolean);
   for (const file of tracked) {
     if (isPrivate(file)) add("tracked-private", "high", file, "tracked in a private directory");
+  }
+  // Foreman's roadmap and state are private working material under the ignored profile. A project
+  // that tracks either one versions its roadmap on purpose, as Foreman allows, and is left alone.
+  // Medium, so the finding never changes the exit code.
+  const foremanTracked = tracked.some((file) => file === FOREMAN_ROADMAP || file.startsWith(`${FOREMAN_DIR}/`));
+  if (profile === "ignored" && !foremanTracked && [FOREMAN_ROADMAP, FOREMAN_DIR].some((name) => fs.existsSync(path.join(root, name)))) {
+    if (!committedIgnored(root, FOREMAN_ROADMAP)) add("foreman-visible", "medium", FOREMAN_ROADMAP, "Foreman's roadmap is not ignored");
+    if (!committedIgnored(root, `${FOREMAN_DIR}/${PROBE}`)) add("foreman-visible", "medium", `${FOREMAN_DIR}/`, "Foreman's state is not ignored");
   }
   for (const file of tracked) {
     if (!file.toLowerCase().endsWith(".md") || isPrivate(file)) continue;

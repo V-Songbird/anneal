@@ -264,7 +264,7 @@ Profiles:
 
 | Profile | What it does |
 | --- | --- |
-| `solo-public` | Ignores `docs/tasks/`, `docs/decisions/`, `docs/knowledge/private/`, `docs/apis/private/` and `.private/` |
+| `solo-public` | Ignores `docs/tasks/`, `docs/decisions/`, `docs/knowledge/private/`, `docs/apis/private/` and `.private/`, plus Foreman's `ROADMAP.jsonl` and `.foreman/` |
 | `private-repo` and `team` | Version every documentation directory for cloud sessions, with `.private/` still ignored; adopt writes no rule for it and reports a trackable one |
 
 ### Check and index
@@ -274,7 +274,7 @@ Profiles:
 | Severity | Findings |
 | --- | --- |
 | High | `private-visible`, `public-ignored`, `tracked-private`, `public-links-private` |
-| Medium | `task-note-large` (over 20,000 characters), `history-doc-large` (over 50,000), `task-note-completed` |
+| Medium | `task-note-large` (over 20,000 characters), `history-doc-large` (over 50,000), `task-note-completed`, `foreman-visible` (a project with a root `ROADMAP.jsonl` or `.foreman/` that leaves either unignored under `solo-public`, unless it tracks one) |
 | Low | Frontmatter, type, folder, `related_files` and file-name problems |
 
 The frontmatter reader handles top-level keys and `related_files`, not full YAML. `--index` prints `docs/index.md` text, one summary line per record grouped by type, listing only files Git does not ignore. You save it yourself.
