@@ -117,6 +117,24 @@ test("only a committed .gitignore counts toward the profile and .private", () =>
   assert.deepStrictEqual(ids(negated), ["private-visible docs/tasks/"]);
 });
 
+test("Foreman's files are reported only where the project uses Foreman and keeps them private", () => {
+  const foreman = (report) => ids(report).filter((line) => line.startsWith("foreman-visible"));
+  // No Foreman at the root: nothing to report, whatever the rules say.
+  assert.deepStrictEqual(foreman(check(repo())), []);
+  // Either file alone marks the project; both paths are reported, as medium.
+  const roadmap = check(repo({ files: { "ROADMAP.jsonl": "" } }));
+  assert.deepStrictEqual(foreman(roadmap), ["foreman-visible .foreman/", "foreman-visible ROADMAP.jsonl"]);
+  assert.deepStrictEqual(ids(roadmap, "medium"), foreman(roadmap));
+  assert.deepStrictEqual(foreman(check(repo({ files: { ".foreman/config.json": "{}" } }))), ["foreman-visible .foreman/", "foreman-visible ROADMAP.jsonl"]);
+  // The template's lines cover both.
+  assert.deepStrictEqual(foreman(check(repo({ ignore: `${IGNORE}ROADMAP.jsonl\n.foreman/\n`, files: { "ROADMAP.jsonl": "" } }))), []);
+  // A tracked roadmap is versioned on purpose, and the versioned profile keeps everything.
+  assert.deepStrictEqual(foreman(check(repo({ tracked: { "ROADMAP.jsonl": "" } }))), []);
+  assert.deepStrictEqual(foreman(check(repo({ ignore: "", files: { "ROADMAP.jsonl": "" } }))), []);
+  // The finding never changes the exit code.
+  assert.strictEqual(cli(["--root", repo({ files: { "ROADMAP.jsonl": "" } })]).status, 0);
+});
+
 test("tracked private files are reported without leaving the index", () => {
   const tracked = { ".private/example.txt": "Synthetic.\n", "docs/decisions/example.md": NOTE("adr"), "pkg/docs/tasks/nested.md": NOTE("task_summary", "status: active\n") };
   const root = repo({ tracked });
